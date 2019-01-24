@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.libraries    = 'stdc++'
   spec.resource     = 'EaseUI/resources/EaseUIResource.bundle'
   spec.xcconfig     = {'OTHER_LDFLAGS' => '-ObjC', 'GCC_PREPROCESSOR_DEFINITIONS' => 'ENABLE_LITE=1'}
-  spec.dependency 'MWPhotoBrowser', :podspec =>'https://raw.githubusercontent.com/moinku07/MWPhotoBrowser/master/MWPhotoBrowser.podspec'  
+  spec.dependency 'MWPhotoBrowser', :git => 'https://github.com/moinku07/MWPhotoBrowser.git'
   spec.dependency 'MJRefresh'
   spec.dependency 'HyphenateLite'
 end
