@@ -11,6 +11,7 @@
  */
 
 #import "EaseConversationModel.h"
+#import "UIImage+EaseBundle.h"
 
 #if ENABLE_LITE == 1
 #import <HyphenateLite/EMConversation.h>
@@ -27,10 +28,10 @@
         _conversation = conversation;
         _title = _conversation.conversationId;
         if (conversation.type == EMConversationTypeChat) {
-            _avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+            _avatarImage = [UIImage ease_imageNamedFromMyBundle:@"user"];
         }
         else{
-            _avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/group"];
+            _avatarImage = [UIImage ease_imageNamedFromMyBundle:@"group"];
         }
     }
     

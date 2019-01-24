@@ -15,6 +15,8 @@
 #import "EaseLocationViewController.h"
 
 #import "UIViewController+HUD.h"
+#import "NSBundle+EaseUI.h"
+#import "UIImage+EaseBundle.h"
 #import "EaseLocalDefine.h"
 
 static EaseLocationViewController *defaultLocation = nil;
@@ -71,10 +73,10 @@ static EaseLocationViewController *defaultLocation = nil;
 {
     [super viewDidLoad];
     
-    self.title = @"位置信息";
+    self.title = NSEaseLocalizedString(@"location.messageType", @"location message");
     
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [backButton setImage:[UIImage imageNamed:@"EaseUIResource.bundle/back"] forState:UIControlStateNormal];
+    [backButton setImage:[UIImage ease_imageNamedFromMyBundle:@"back"] forState:UIControlStateNormal];
     [backButton addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     [self.navigationItem setLeftBarButtonItem:backItem];
@@ -89,7 +91,7 @@ static EaseLocationViewController *defaultLocation = nil;
         _mapView.showsUserLocation = YES;//显示当前位置
         
         UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-        [sendButton setTitle:@"发送" forState:UIControlStateNormal];
+        [sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
         sendButton.accessibilityIdentifier = @"send_location";
         [sendButton setTitleColor:[UIColor colorWithRed:32 / 255.0 green:134 / 255.0 blue:158 / 255.0 alpha:1.0] forState:UIControlStateNormal];
         [sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
@@ -143,7 +145,7 @@ static EaseLocationViewController *defaultLocation = nil;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
                                                             message:[error.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey]
                                                            delegate:nil
-                                                  cancelButtonTitle:@"确定"
+                                                  cancelButtonTitle:NSEaseLocalizedString(@"ok", @"OK")
                                                   otherButtonTitles:nil, nil];
         [alertView show];
     }
@@ -191,7 +193,7 @@ static EaseLocationViewController *defaultLocation = nil;
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
     
-    [self showHudInView:self.view hint:@"正在定位..."];
+    [self showHudInView:self.view hint:NSEaseLocalizedString(@"location.ongoning", @"locating...")];
 }
 
 /*!

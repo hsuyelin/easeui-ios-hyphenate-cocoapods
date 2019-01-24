@@ -17,6 +17,7 @@
 #import "EaseConvertToCommonEmoticonsHelper.h"
 #import "EaseMessageViewController.h"
 #import "NSDate+Category.h"
+#import "NSBundle+EaseUI.h"
 #import "EaseLocalDefine.h"
 
 @interface EaseConversationListViewController ()
@@ -151,13 +152,13 @@
 - (id)setupCellEditActions:(NSIndexPath *)aIndexPath
 {
     if ([UIDevice currentDevice].systemVersion.floatValue < 11.0) {
-        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSLocalizedString(@"delete",@"Delete") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:NSEaseLocalizedString(@"delete",@"Delete") handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             [self deleteCellAction:indexPath];
         }];
         deleteAction.backgroundColor = [UIColor redColor];
         return @[deleteAction];
     } else {
-        UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:NSLocalizedString(@"delete",@"Delete") handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+        UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:NSEaseLocalizedString(@"delete",@"Delete") handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
             [self deleteCellAction:aIndexPath];
         }];
         deleteAction.backgroundColor = [UIColor redColor];
@@ -274,7 +275,7 @@
         EMMessageBody *messageBody = lastMessage.body;
         switch (messageBody.type) {
             case EMMessageBodyTypeImage:{
-                latestMessageTitle = @"[图片]";
+                latestMessageTitle = NSEaseLocalizedString(@"message.image1", @"[image]");
             } break;
             case EMMessageBodyTypeText:{
                 NSString *didReceiveText = [EaseConvertToCommonEmoticonsHelper
@@ -282,16 +283,16 @@
                 latestMessageTitle = didReceiveText;
             } break;
             case EMMessageBodyTypeVoice:{
-                latestMessageTitle = @"[音频]";
+                latestMessageTitle = NSEaseLocalizedString(@"message.voice1", @"[voice]");
             } break;
             case EMMessageBodyTypeLocation: {
-                latestMessageTitle = @"[位置]";
+                latestMessageTitle = NSEaseLocalizedString(@"message.location1", @"[location]");
             } break;
             case EMMessageBodyTypeVideo: {
-                latestMessageTitle = @"[视频]";
+                latestMessageTitle = NSEaseLocalizedString(@"message.video1", @"[video]");
             } break;
             case EMMessageBodyTypeFile: {
-                latestMessageTitle = @"[文件]";
+                latestMessageTitle = NSEaseLocalizedString(@"message.file1", @"[file]");
             } break;
             default: {
             } break;

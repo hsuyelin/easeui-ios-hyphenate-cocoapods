@@ -14,6 +14,7 @@
 
 #import "EaseEmotionEscape.h"
 #import "EaseConvertToCommonEmoticonsHelper.h"
+#import "UIImage+EaseBundle.h"
 
 @implementation EaseMessageModel
 
@@ -106,7 +107,7 @@
             case EMMessageBodyTypeFile:
             {
                 EMFileMessageBody *fileMessageBody = (EMFileMessageBody *)_firstMessageBody;
-                self.fileIconName = @"EaseUIResource.bundle/chat_item_file";
+                self.fileIconName = @"chat_item_file";
                 self.fileName = fileMessageBody.displayName;
                 self.fileSize = fileMessageBody.fileLength;
                 

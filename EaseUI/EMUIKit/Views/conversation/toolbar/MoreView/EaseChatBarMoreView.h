@@ -66,6 +66,8 @@ typedef enum{
  */
 - (void)removeItematIndex:(NSInteger)index;
 
+- (void)enableScroll:(BOOL)enabled;
+
 @end
 
 @protocol EaseChatBarMoreViewDelegate <NSObject>

@@ -12,6 +12,7 @@
 
 #import "EMAudioPlayerUtil.h"
 #import <AVFoundation/AVFoundation.h>
+#import "NSBundle+EaseUI.h"
 #import "EaseLocalDefine.h"
 
 static EMAudioPlayerUtil *audioPlayerUtil = nil;
@@ -77,7 +78,7 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
     NSError *error = nil;
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:aFilePath]) {
-        error = [NSError errorWithDomain:@"文件路径不存在"
+        error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.notFound", @"File path not exist")
                                     code:-1
                                 userInfo:nil];
         if (playFinish) {
@@ -92,7 +93,7 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
     _player = [[AVAudioPlayer alloc] initWithContentsOfURL:wavUrl error:&error];
     if (error || !_player) {
         _player = nil;
-        error = [NSError errorWithDomain:@"初始化AVAudioPlayer失败!"
+        error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.initPlayerFail", @"Failed to initialize AVAudioPlayer")
                                     code:-1
                                 userInfo:nil];
         if (playFinish) {
@@ -143,7 +144,7 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player
                                  error:(NSError *)error{
     if (playFinish) {
-        NSError *error = [NSError errorWithDomain:@"播放失败!"
+        NSError *error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.palyFail", @"Play failure")
                                              code:-1
                                          userInfo:nil];
         playFinish(error);

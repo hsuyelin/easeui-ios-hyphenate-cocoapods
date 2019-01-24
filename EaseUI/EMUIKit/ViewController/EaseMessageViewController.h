@@ -306,6 +306,10 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDataSource> dataSource;
 
+
+@property (copy, nonatomic) NSMutableDictionary *easeExt;
+@property (assign, nonatomic) BOOL easeHasReadFlag;
+
 /*!
  @property
  @brief 聊天的会话对象
@@ -402,7 +406,9 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  */
 @property (nonatomic) BOOL isJoinedChatroom;
 
-@property (nonatomic) BOOL isTyping;
+- (void)ease_imageMessageSelected:(id<IMessageModel>)model;
+- (void)ease_audioMessageSelected:(id<IMessageModel>)model;
+- (void)ease_videoMessageSelected:(id<IMessageModel>)model;
 
 /*!
   @method
@@ -492,9 +498,6 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @result
  */
 - (void)sendFileMessageWith:(EMMessage *)message;
-
-- (void)sendMessage:(EMMessage *)message
-   isNeedUploadFile:(BOOL)isUploadFile;
 
 
 /*!

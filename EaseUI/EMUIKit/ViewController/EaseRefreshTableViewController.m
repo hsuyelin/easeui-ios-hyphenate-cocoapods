@@ -14,6 +14,7 @@
 
 #import "MJRefresh.h"
 #import "EaseLocalDefine.h"
+#import "EaseChatToolbar.h"
 
 @interface EaseRefreshTableViewController ()
 
@@ -38,16 +39,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        [self setEdgesForExtendedLayout:UIRectEdgeNone];
-    }
-    
-    if (@available(iOS 11.0, *)) {
-        self.additionalSafeAreaInsets = UIEdgeInsetsMake(0, 0, iPhoneX_BOTTOM_HEIGHT, 0);
-    }
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:self.style];
+    CGFloat navigationBarHeight = [self ease_navigationBarHeight];
+    CGFloat chatbarHeight = [EaseChatToolbar defaultHeight];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, navigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - navigationBarHeight - chatbarHeight - iPhoneX_BOTTOM_HEIGHT) style:self.style];
     _tableView.accessibilityIdentifier = @"table_view";
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _tableView.delegate = self;
@@ -204,6 +198,24 @@
             [weakSelf.tableView.mj_footer endRefreshing];
         }
     });
+}
+
+#pragma mark - utils
+- (BOOL)ease_isiPhoneXSeries
+{
+    BOOL isiPhoneXSeries = NO;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *keywindow = [[UIApplication sharedApplication] delegate].window;
+        if (keywindow != nil) {
+            isiPhoneXSeries = keywindow.safeAreaInsets.bottom > 0;
+        }
+    }
+    return isiPhoneXSeries;
+}
+
+- (CGFloat)ease_navigationBarHeight
+{
+    return [[UIApplication sharedApplication] statusBarFrame].size.height + 44.0;
 }
 
 @end

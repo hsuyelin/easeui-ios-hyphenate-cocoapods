@@ -55,7 +55,10 @@
  @param otherConfig     注册SDK的额外配置(此方法目前只解析了kSDKConfigEnableConsoleLogger字段)
  */
 - (void)hyphenateApplication:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+                    appkey:(NSString *)appkey
+              apnsCertName:(NSString *)apnsCertName
+               otherConfig:(NSDictionary *)otherConfig;
 
 #pragma mark - receive remote notification
 

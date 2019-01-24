@@ -18,6 +18,9 @@
 
 #import "UIImage+GIF.h"
 
+#import "NSBundle+EaseUI.h"
+#import "UIImage+EaseBundle.h"
+#import "NSMutableDictionary+EaseMerge.h"
 #import "NSDate+Category.h"
 #import "EaseUsersListViewController.h"
 #import "EaseMessageReadManager.h"
@@ -65,6 +68,8 @@ typedef enum : NSUInteger {
 @property (nonatomic) BOOL isKicked;
 @property (nonatomic) BOOL isPlayingAudio;
 @property (nonatomic, strong) NSMutableArray *atTargets;
+
+@property (nonatomic) BOOL isTyping;
 
 @end
 
@@ -138,11 +143,11 @@ typedef enum : NSUInteger {
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
     
-    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
-    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
+    [[EaseBaseMessageCell appearance] setSendBubbleBackgroundImage:[[UIImage ease_imageNamedFromMyBundle:@"chat_sender_bg"] stretchableImageWithLeftCapWidth:5 topCapHeight:35]];
+    [[EaseBaseMessageCell appearance] setRecvBubbleBackgroundImage:[[UIImage ease_imageNamedFromMyBundle:@"chat_receiver_bg"] stretchableImageWithLeftCapWidth:35 topCapHeight:35]];
     
-    [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_003"]]];
-    [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"],[UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing000"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing001"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing002"], [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing003"]]];
+    [[EaseBaseMessageCell appearance] setSendMessageVoiceAnimationImages:@[[UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_full"], [UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_000"], [UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_001"], [UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_002"], [UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_003"]]];
+    [[EaseBaseMessageCell appearance] setRecvMessageVoiceAnimationImages:@[[UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing_full"],[UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing000"], [UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing001"], [UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing002"], [UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing003"]]];
     
     [[EaseBaseMessageCell appearance] setAvatarSize:40.f];
     [[EaseBaseMessageCell appearance] setAvatarCornerRadius:20.f];
@@ -155,6 +160,9 @@ typedef enum : NSUInteger {
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
+    
+    NSUserDefaults *uDefaults = [NSUserDefaults standardUserDefaults];
+    self.isTyping = [uDefaults boolForKey:@"MessageShowTyping"];
 }
 
 /*!
@@ -175,7 +183,7 @@ typedef enum : NSUInteger {
             [emotions addObject:emotion];
         }
         EaseEmotion *emotion = [emotions objectAtIndex:0];
-        EaseEmotionManager *manager= [[EaseEmotionManager alloc] initWithType:EMEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage imageNamed:emotion.emotionId]];
+        EaseEmotionManager *manager= [[EaseEmotionManager alloc] initWithType:EMEmotionDefault emotionRow:3 emotionCol:7 emotions:emotions tagImage:[UIImage ease_imageNamedFromMyBundle:emotion.emotionId]];
         [self.faceView setEmotionManagers:@[manager]];
     }
 }
@@ -244,7 +252,7 @@ typedef enum : NSUInteger {
 - (void)joinChatroom:(NSString *)chatroomId
 {
     __weak typeof(self) weakSelf = self;
-    [self showHudInView:self.view hint:@"正在加入..."];
+    [self showHudInView:self.view hint:NSEaseLocalizedString(@"chatroom.joining",@"Joining the chatroom")];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         EMError *error = nil;
         EMChatroom *chatroom = [[EMClient sharedClient].roomManager joinChatroom:chatroomId error:&error];
@@ -253,7 +261,7 @@ typedef enum : NSUInteger {
                 EaseMessageViewController *strongSelf = weakSelf;
                 [strongSelf hideHud];
                 if (error != nil) {
-                    [strongSelf showHint:[NSString stringWithFormat:@"加入聊天室\'%@\'失败", chatroomId]];
+                    [strongSelf showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.joinFailed",@"join chatroom \'%@\' failed"), chatroomId]];
                 } else {
                     strongSelf.isJoinedChatroom = YES;
                     [strongSelf saveChatroom:chatroom];
@@ -277,14 +285,14 @@ typedef enum : NSUInteger {
                             username:(NSString *)aUsername
 {
     CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:@"\'%@\'加入聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+    [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.join", @"\'%@\'join chatroom\'%@\'"), aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
 }
 
 - (void)didReceiveUserLeavedChatroom:(EMChatroom *)aChatroom
                             username:(NSString *)aUsername
 {
     CGRect frame = self.chatToolbar.frame;
-    [self showHint:[NSString stringWithFormat:@"\'%@\'离开聊天室\'%@\'", aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+    [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.leave.hint", @"\'%@\'leave chatroom\'%@\'"), aUsername, aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
 }
 
 - (void)didDismissFromChatroom:(EMChatroom *)aChatroom
@@ -295,13 +303,13 @@ typedef enum : NSUInteger {
         _isKicked = YES;
         __weak typeof(self) weakself = self;
         if (aReason == EMChatroomBeKickedReasonOffline) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(ಥ_ಥ)" message:[NSString stringWithFormat:@"离开聊天室\'%@\', 原因：账号离线. 是否重新加入聊天室？", aChatroom.chatroomId] preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"chatroom.join", @"Join") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"(ಥ_ಥ)" message:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.removeForOffline", nil), aChatroom.chatroomId] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSEaseLocalizedString(@"chatroom.join", @"Join") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [weakself joinChatroom:weakself.conversation.conversationId];
             }];
             [alertController addAction:okAction];
             
-            [alertController addAction: [UIAlertAction actionWithTitle:NSLocalizedString(@"alert.cancel", @"Cancel") style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [alertController addAction: [UIAlertAction actionWithTitle:NSEaseLocalizedString(@"alert.cancel", @"Cancel") style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 [weakself.navigationController popToViewController:self animated:NO];
                 [weakself.navigationController popViewControllerAnimated:YES];
             }]];
@@ -309,7 +317,7 @@ typedef enum : NSUInteger {
             [self presentViewController:alertController animated:YES completion:nil];
         } else {
             CGRect frame = self.chatToolbar.frame;
-            [self showHint:[NSString stringWithFormat:@"被踢出聊天室\'%@\'", aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
+            [self showHint:[NSString stringWithFormat:NSEaseLocalizedString(@"chatroom.remove", @"be removed from chatroom\'%@\'"), aChatroom.chatroomId] yOffset:-frame.size.height + KHintAdjustY];
             [self.navigationController popToViewController:self animated:NO];
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -335,6 +343,14 @@ typedef enum : NSUInteger {
         _atTargets = [NSMutableArray array];
     }
     return _atTargets;
+}
+
+- (NSMutableDictionary *)easeExt
+{
+    if (!_easeExt) {
+        _easeExt = [NSMutableDictionary dictionary];
+    }
+    return _easeExt;
 }
 
 #pragma mark - setter
@@ -370,8 +386,9 @@ typedef enum : NSUInteger {
         [self.view addSubview:_chatToolbar];
     }
     
+    CGFloat navigationBarHeight = [self ease_navigationBarHeight];
     CGRect tableFrame = self.tableView.frame;
-    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height - iPhoneX_BOTTOM_HEIGHT;
+    tableFrame.size.height = self.view.frame.size.height - _chatToolbar.frame.size.height - navigationBarHeight - iPhoneX_BOTTOM_HEIGHT;
     self.tableView.frame = tableFrame;
     if ([chatToolbar isKindOfClass:[EaseChatToolbar class]]) {
         [(EaseChatToolbar *)self.chatToolbar setDelegate:self];
@@ -444,11 +461,11 @@ typedef enum : NSUInteger {
     }
     
     if (_deleteMenuItem == nil) {
-        _deleteMenuItem = [[UIMenuItem alloc] initWithTitle:@"删除" action:@selector(deleteMenuAction:)];
+        _deleteMenuItem = [[UIMenuItem alloc] initWithTitle:NSEaseLocalizedString(@"delete", @"Delete") action:@selector(deleteMenuAction:)];
     }
     
     if (_copyMenuItem == nil) {
-        _copyMenuItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyMenuAction:)];
+        _copyMenuItem = [[UIMenuItem alloc] initWithTitle:NSEaseLocalizedString(@"copy", @"Copy") action:@selector(copyMenuAction:)];
     }
     
     if (messageType == EMMessageBodyTypeText) {
@@ -562,7 +579,7 @@ typedef enum : NSUInteger {
 - (void)_customDownloadMessageFile:(EMMessage *)aMessage
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"message.autoTransfer", @"Please customize the  transfer attachment method") delegate:nil cancelButtonTitle:NSLocalizedString(@"sure", @"OK") otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSEaseLocalizedString(@"message.autoTransfer", @"Please customize the  transfer attachment method") delegate:nil cancelButtonTitle:NSEaseLocalizedString(@"sure", @"OK") otherButtonTitles:nil, nil];
         [alertView show];
     });
 }
@@ -584,7 +601,7 @@ typedef enum : NSUInteger {
         }
         else
         {
-            [weakSelf showHint:@"获取缩略图失败!"];
+            [weakSelf showHint:NSEaseLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
         }
     };
     
@@ -635,7 +652,7 @@ typedef enum : NSUInteger {
                             [weakSelf _reloadTableViewDataWithMessage:message];
                         }
                         else {
-                            [weakSelf showHint:@"获取语音失败"];
+                            [weakSelf showHint:NSEaseLocalizedString(@"message.voiceFail", @"voice for failure!")];
                         }
                     }];
                 }
@@ -655,23 +672,27 @@ typedef enum : NSUInteger {
 - (BOOL)shouldSendHasReadAckForMessage:(EMMessage *)message
                                   read:(BOOL)read
 {
-    if (message.chatType != EMChatTypeChat || message.isReadAcked || message.direction == EMMessageDirectionSend || ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) || !self.isViewDidAppear)
-    {
-        return NO;
-    }
-    
-    EMMessageBody *body = message.body;
-    if (((body.type == EMMessageBodyTypeVideo) ||
-         (body.type == EMMessageBodyTypeVoice) ||
-         (body.type == EMMessageBodyTypeImage)) &&
-        !read)
-    {
-        return NO;
-    }
-    else
-    {
-        return YES;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.easeHasReadFlag = NO;
+        if (message.chatType != EMChatTypeChat || message.isReadAcked || message.direction == EMMessageDirectionSend || ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) || !self.isViewDidAppear)
+        {
+            self.easeHasReadFlag =  NO;
+        }
+        
+        EMMessageBody *body = message.body;
+        if (((body.type == EMMessageBodyTypeVideo) ||
+             (body.type == EMMessageBodyTypeVoice) ||
+             (body.type == EMMessageBodyTypeImage)) &&
+            !read)
+        {
+            self.easeHasReadFlag = NO;
+        }
+        else
+        {
+            self.easeHasReadFlag = YES;
+        }
+    });
+    return self.easeHasReadFlag;
 }
 
 /*!
@@ -760,7 +781,7 @@ typedef enum : NSUInteger {
     
     NSString *localPath = [model.fileLocalPath length] > 0 ? model.fileLocalPath : videoBody.localPath;
     if ([localPath length] == 0) {
-        [self showHint:@"获取视频失败!"];
+        [self showHint:NSEaseLocalizedString(@"message.videoFail", @"video for failure!")];
         return;
     }
     
@@ -785,7 +806,7 @@ typedef enum : NSUInteger {
         }
         else
         {
-            [weakSelf showHint:@"获取缩略图失败!"];
+            [weakSelf showHint:NSEaseLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
         }
     };
     
@@ -805,7 +826,7 @@ typedef enum : NSUInteger {
         return;
     }
     
-    [self showHudInView:self.view hint:@"正在获取视频..."];
+    [self showHudInView:self.view hint:NSEaseLocalizedString(@"message.downloadingVideo", @"downloading video...")];
     if (isCustomDownload) {
         [self _customDownloadMessageFile:model.message];
     } else {
@@ -814,7 +835,7 @@ typedef enum : NSUInteger {
             if (!error) {
                 block();
             }else{
-                [weakSelf showHint:@"获取视频失败!"];
+                [weakSelf showHint:NSEaseLocalizedString(@"message.videoFail", @"video for failure!")];
             }
         }];
     }
@@ -849,8 +870,8 @@ typedef enum : NSUInteger {
                 }
             }
             
-            [weakSelf showHudInView:weakSelf.view hint:@"正在获取大图..."];
-
+            [weakSelf showHudInView:weakSelf.view hint:NSEaseLocalizedString(@"message.downloadingImage", @"downloading a image...")];
+            
             void (^completion)(EMMessage *aMessage, EMError *error) = ^(EMMessage *aMessage, EMError *error) {
                 [weakSelf hideHud];
                 if (!error) {
@@ -859,7 +880,7 @@ typedef enum : NSUInteger {
                     NSString *localPath = aMessage == nil ? model.fileLocalPath : [(EMImageMessageBody*)aMessage.body localPath];
                     if (localPath && localPath.length > 0) {
                         UIImage *image = [UIImage imageWithContentsOfFile:localPath];
-//                        weakSelf.isScrollToBottom = NO;
+                        //                        weakSelf.isScrollToBottom = NO;
                         if (image)
                         {
                             [[EaseMessageReadManager defaultManager] showBrowserWithImages:@[image]];
@@ -871,7 +892,7 @@ typedef enum : NSUInteger {
                         return ;
                     }
                 }
-                [weakSelf showHint:@"获取大图失败!"];
+                [weakSelf showHint:NSEaseLocalizedString(@"message.imageFail", @"image for failure!")];
             };
             
             if (isCustomDownload) {
@@ -888,12 +909,28 @@ typedef enum : NSUInteger {
                     if (!error) {
                         [weakSelf _reloadTableViewDataWithMessage:model.message];
                     }else{
-                        [weakSelf showHint:@"获取缩略图失败!"];
+                        [weakSelf showHint:NSEaseLocalizedString(@"message.thumImageFail", @"thumbnail for failure!")];
                     }
                 }];
             }
         }
     }
+}
+
+- (void)ease_imageMessageSelected:(id<IMessageModel>)model
+{
+    _scrollToBottomWhenAppear = NO;
+    [self _imageMessageCellSelected:model];
+}
+
+- (void)ease_audioMessageSelected:(id<IMessageModel>)model
+{
+    [self _audioMessageCellSelected:model];
+}
+
+- (void)ease_videoMessageSelected:(id<IMessageModel>)model
+{
+    [self _videoMessageCellSelected:model];
 }
 
 /*!
@@ -909,12 +946,12 @@ typedef enum : NSUInteger {
     EMVoiceMessageBody *body = (EMVoiceMessageBody*)model.message.body;
     EMDownloadStatus downloadStatus = [body downloadStatus];
     if (downloadStatus == EMDownloadStatusDownloading) {
-        [self showHint:@"正在下载语音，稍后点击"];
+        [self showHint:NSEaseLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
         return;
     }
     else if (downloadStatus == EMDownloadStatusFailed || downloadStatus == EMDownloadStatusPending)
     {
-        [self showHint:@"正在下载语音，稍后点击"];
+        [self showHint:NSEaseLocalizedString(@"message.downloadingAudio", @"downloading voice, click later")];
         BOOL isCustomDownload = !([EMClient sharedClient].options.isAutoTransferMessageAttachments);
         if (isCustomDownload) {
             [self _customDownloadMessageFile:model.message];
@@ -1233,7 +1270,7 @@ typedef enum : NSUInteger {
                             if (data != nil) {
                                 [self sendImageMessageWithData:data];
                             } else {
-                                [self showHint:@"图片太大，请选择其他图片"];
+                                [self showHint:NSEaseLocalizedString(@"message.smallerImage", @"The image size is too large, please choose another one")];
                             }
                         }];
                     }
@@ -1434,6 +1471,7 @@ typedef enum : NSUInteger {
             }
         }];
         EaseChatToolbar *toolbar = (EaseChatToolbar*)self.chatToolbar;
+        toolbar.inputTextView.text = [NSString stringWithFormat:@"%@@", toolbar.inputTextView.text];
         [toolbar.inputTextView resignFirstResponder];
         return YES;
     }
@@ -1515,6 +1553,7 @@ typedef enum : NSUInteger {
                 [[EMCDDeviceManager sharedInstance] asyncStartRecordingWithFileName:fileName completion:^(NSError *error)
                  {
                      if (error) {
+                         NSLog(@"%@",NSEaseLocalizedString(@"message.startRecordFail", @"failure to start recording"));
                          _isRecording = NO;
                      }
                  }];
@@ -1523,7 +1562,7 @@ typedef enum : NSUInteger {
                 break;
             case EMCanNotRecord:
             {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"prompt", @"Prompt") message:NSLocalizedString(@"record.failToPermission", @"No recording permission") delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSEaseLocalizedString(@"prompt", @"Prompt") message:NSEaseLocalizedString(@"record.failToPermission", @"No recording permission") delegate:nil cancelButtonTitle:NSEaseLocalizedString(@"ok", @"OK") otherButtonTitles:nil, nil];
                 [alertView show];
             }
                 break;
@@ -1630,7 +1669,7 @@ typedef enum : NSUInteger {
     [self.chatToolbar endEditing:YES];
     
 #if TARGET_IPHONE_SIMULATOR
-    [self showHint:@"模拟器不支持拍照"];
+    [self showHint:NSEaseLocalizedString(@"message.simulatorNotSupportCamera", @"simulator does not support taking picture")];
 #elif TARGET_OS_IPHONE
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage,(NSString *)kUTTypeMovie];
@@ -1655,16 +1694,12 @@ typedef enum : NSUInteger {
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_MAKE1V1CALL object:@{@"chatter":self.conversation.conversationId, @"type":@(EMCallTypeVoice)}];
 }
 
 - (void)moreViewVideoCallAction:(EaseChatBarMoreView *)moreView
 {
     // Hide the keyboard
     [self.chatToolbar endEditing:YES];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_MAKE1V1CALL object:@{@"chatter":self.conversation.conversationId, @"type":@(EMCallTypeVideo)}];
 }
 
 #pragma mark - EMLocationViewDelegate
@@ -1703,14 +1738,14 @@ typedef enum : NSUInteger {
         if ([self.conversation.conversationId isEqualToString:message.conversationId]) {
             EMCmdMessageBody *body = (EMCmdMessageBody *)message.body;
             if ([body.action isEqualToString:@"TypingBegin"]) {
-                self.title = @"正在输入";
+                self.title = NSEaseLocalizedString(@"message.typing", @"Typing...");
                 continue;
             } else if ([body.action isEqualToString:@"TypingEnd"]) {
                 self.title = self.conversation.conversationId;
                 continue;
             }
             
-            [self showHint:@"有透传消息"];
+            [self showHint:NSEaseLocalizedString(@"receiveCmd", @"receive cmd message")];
         }
     }
 }
@@ -1886,7 +1921,7 @@ typedef enum : NSUInteger {
         }
         else{
             model = [[EaseMessageModel alloc] initWithMessage:message];
-            model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+            model.avatarImage = [UIImage ease_imageNamedFromMyBundle:@"user"];
             model.failImageName = @"imageDownloadFail";
         }
         
@@ -1975,9 +2010,19 @@ typedef enum : NSUInteger {
         message.chatType = EMChatTypeChatRoom;
     }
     
+    if (self.easeExt != nil && [self.easeExt.allKeys count] > 0) {
+        if (message.ext == nil || [message.ext.allKeys count] == 0) {
+            message.ext = self.easeExt;
+        } else {
+            NSMutableDictionary *messageExt = [[NSMutableDictionary alloc] initWithDictionary:message.ext];
+            [messageExt mergingWithDictionary:self.easeExt];
+            message.ext = messageExt;
+        }
+    }
+    
     __weak typeof(self) weakself = self;
     if (!([EMClient sharedClient].options.isAutoTransferMessageAttachments) && isUploadFile) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSLocalizedString(@"message.autoTransfer", @"Please customize the transfer attachment method") delegate:nil cancelButtonTitle:NSLocalizedString(@"sure", @"OK") otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:NSEaseLocalizedString(@"message.autoTransfer", @"Please customize the transfer attachment method") delegate:nil cancelButtonTitle:NSEaseLocalizedString(@"sure", @"OK") otherButtonTitles:nil, nil];
         [alertView show];
     } else {
         [self addMessageToDataSource:message
@@ -2144,7 +2189,7 @@ typedef enum : NSUInteger {
                     }
                     else{
                         model = [[EaseMessageModel alloc] initWithMessage:message];
-                        model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+                        model.avatarImage = [UIImage ease_imageNamedFromMyBundle:@"user"];
                         model.failImageName = @"imageDownloadFail";
                     }
                     
@@ -2169,7 +2214,7 @@ typedef enum : NSUInteger {
         }
         else{
             model = [[EaseMessageModel alloc] initWithMessage:aMessage];
-            model.avatarImage = [UIImage imageNamed:@"EaseUIResource.bundle/user"];
+            model.avatarImage = [UIImage ease_imageNamedFromMyBundle:@"user"];
             model.failImageName = @"imageDownloadFail";
         }
         if (model) {
@@ -2204,7 +2249,7 @@ typedef enum : NSUInteger {
         if ([splits count]) {
             for (NSString *split in splits) {
                 if (split.length) {
-                    NSString *atALl = @"[有全体消息]";
+                    NSString *atALl = NSEaseLocalizedString(@"group.atAll", @"all");
                     if (split.length >= atALl.length && [split compare:atALl options:NSCaseInsensitiveSearch range:NSMakeRange(0, atALl.length)] == NSOrderedSame) {
                         [targets removeAllObjects];
                         [targets addObject:kGroupMessageAtAll];
@@ -2225,6 +2270,5 @@ typedef enum : NSUInteger {
     }
     return targets;
 }
-
 
 @end

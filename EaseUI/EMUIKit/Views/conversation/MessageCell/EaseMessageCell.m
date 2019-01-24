@@ -12,7 +12,10 @@
 
 #import "EaseMessageCell.h"
 
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "NSBundle+EaseUI.h"
+#import "UIImage+EaseBundle.h"
+#import "UIFont+EaseFont.h"
 
 #import "EaseBubbleView+Text.h"
 #import "EaseBubbleView+Image.h"
@@ -69,8 +72,8 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     cell.rightBubbleMargin = UIEdgeInsetsMake(8, 10, 8, 15);
     cell.bubbleMargin = UIEdgeInsetsMake(8, 0, 8, 0);
     
-    cell.messageTextFont = [UIFont systemFontOfSize:15];
-    cell.messageTextColor = [UIColor blackColor];
+    cell.messageTextFont = [UIFont ease_mediumPingfangFontOfSize:15];
+    cell.messageTextColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
     
     cell.messageLocationFont = [UIFont systemFontOfSize:10];
     cell.messageLocationColor = [UIColor whiteColor];
@@ -92,7 +95,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.accessibilityIdentifier = @"table_cell";
-
+        
         _messageType = model.bodyType;
         [self _setupSubviewsWithType:_messageType
                             isSender:model.isSender
@@ -112,7 +115,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 /*!
  @method
  @brief 加载子视图
- @discussion  
+ @discussion
  @param messageType  消息体类型
  @param isSender     登录用户是否为发送方
  @param model        消息对象model
@@ -126,7 +129,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     _statusButton.accessibilityIdentifier = @"status";
     _statusButton.translatesAutoresizingMaskIntoConstraints = NO;
     _statusButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_statusButton setImage:[UIImage imageNamed:@"EaseUIResource.bundle/messageSendFail"] forState:UIControlStateNormal];
+    [_statusButton setImage:[UIImage ease_imageNamedFromMyBundle:@"messageSendFail"] forState:UIControlStateNormal];
     [_statusButton addTarget:self action:@selector(statusAction) forControlEvents:UIControlEventTouchUpInside];
     _statusButton.hidden = YES;
     [self.contentView addSubview:_statusButton];
@@ -146,7 +149,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     _hasRead = [[UILabel alloc] init];
     _hasRead.accessibilityIdentifier = @"has_read";
     _hasRead.translatesAutoresizingMaskIntoConstraints = NO;
-    _hasRead.text = @"已读";
+    _hasRead.text = NSEaseLocalizedString(@"hasRead", @"Read");
     _hasRead.textAlignment = NSTextAlignmentCenter;
     _hasRead.font = [UIFont systemFontOfSize:12];
     _hasRead.hidden = YES;
@@ -176,14 +179,14 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             {
                 [_bubbleView setupImageBubbleView];
                 
-                _bubbleView.imageView.image = [UIImage imageNamed:@"EaseUIResource.bundle/imageDownloadFail"];
+                _bubbleView.imageView.image = [UIImage ease_imageNamedFromMyBundle:@"imageDownloadFail"];
             }
                 break;
             case EMMessageBodyTypeLocation:
             {
                 [_bubbleView setupLocationBubbleView];
                 
-                _bubbleView.locationImageView.image = [[UIImage imageNamed:@"EaseUIResource.bundle/chat_location_preview"] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
+                _bubbleView.locationImageView.image = [[UIImage ease_imageNamedFromMyBundle:@"chat_location_preview"] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
                 _bubbleView.locationLabel.font = _messageLocationFont;
                 _bubbleView.locationLabel.textColor = _messageLocationColor;
             }
@@ -200,7 +203,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             {
                 [_bubbleView setupVideoBubbleView];
                 
-                _bubbleView.videoTagView.image = [UIImage imageNamed:@"EaseUIResource.bundle/messageVideo"];
+                _bubbleView.videoTagView.image = [UIImage ease_imageNamedFromMyBundle:@"messageVideo"];
             }
                 break;
             case EMMessageBodyTypeFile:
@@ -241,7 +244,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     
     self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
     [self addConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = YES;
+    //    self.bubbleMaxWidthConstraint.active = YES;
     
     //status button
     self.statusWidthConstraint = [NSLayoutConstraint constraintWithItem:self.statusButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.statusSize];
@@ -258,7 +261,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
     [self _updateHasReadWidthConstraint];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.statusButton attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
-//    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
+    //    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.hasRead attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self.activity attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0]];
 }
 
 #pragma mark - Update Constraint
@@ -320,12 +323,12 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 - (void)_updateBubbleMaxWidthConstraint
 {
     [self removeConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = NO;
+    //    self.bubbleMaxWidthConstraint.active = NO;
     
     //气泡宽度小于等于bubbleMaxWidth
     self.bubbleMaxWidthConstraint = [NSLayoutConstraint constraintWithItem:self.bubbleView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:self.bubbleMaxWidth];
     [self addConstraint:self.bubbleMaxWidthConstraint];
-//    self.bubbleMaxWidthConstraint.active = YES;
+    //    self.bubbleMaxWidthConstraint.active = YES;
 }
 
 #pragma mark - setter
@@ -348,7 +351,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 if (!image) {
                     image = _model.image;
                     if (!image) {
-                        [_bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:_model.thumbnailFileURLPath] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        [_bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:_model.thumbnailFileURLPath] placeholderImage:[UIImage ease_imageNamedFromMyBundle:_model.failImageName]];
                     } else {
                         _bubbleView.imageView.image = image;
                     }
@@ -369,7 +372,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                         self.bubbleView.voiceImageView.image = self.model.isSender ?[self.sendMessageVoiceAnimationImages objectAtIndex:0] : [self.recvMessageVoiceAnimationImages objectAtIndex:0];
                         _bubbleView.voiceImageView.animationImages = self.model.isSender ? self.sendMessageVoiceAnimationImages:self.recvMessageVoiceAnimationImages;
                     } else {
-                        self.bubbleView.voiceImageView.image = self.model.isSender ?[UIImage imageNamed:@"EaseUIResource.bundle/chat_sender_audio_playing_full"]: [UIImage imageNamed:@"EaseUIResource.bundle/chat_receiver_audio_playing_full"];
+                        self.bubbleView.voiceImageView.image = self.model.isSender ?[UIImage ease_imageNamedFromMyBundle:@"chat_sender_audio_playing_full"]: [UIImage ease_imageNamedFromMyBundle:@"chat_receiver_audio_playing_full"];
                     }
                 }
                 if (!self.model.isSender) {
@@ -396,7 +399,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 if (!image) {
                     image = _model.image;
                     if (!image) {
-                        [_bubbleView.videoImageView sd_setImageWithURL:[NSURL URLWithString:_model.fileURLPath] placeholderImage:[UIImage imageNamed:_model.failImageName]];
+                        [_bubbleView.videoImageView sd_setImageWithURL:[NSURL URLWithString:_model.fileURLPath] placeholderImage:[UIImage ease_imageNamedFromMyBundle:_model.failImageName]];
                     } else {
                         _bubbleView.videoImageView.image = image;
                     }
@@ -407,7 +410,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 break;
             case EMMessageBodyTypeFile:
             {
-                _bubbleView.fileIconView.image = [UIImage imageNamed:_model.fileIconName];
+                _bubbleView.fileIconView.image = [UIImage ease_imageNamedFromMyBundle:_model.fileIconName];
                 _bubbleView.fileNameLabel.text = _model.fileName;
                 _bubbleView.fileSizeLabel.text = _model.fileSizeDes;
             }
@@ -642,25 +645,25 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
 
 #pragma mark - IModelCell
 /*
-- (BOOL)isCustomBubbleView:(id<IMessageModel>)model
-{
-    return NO;
-}
-
-- (void)setCustomModel:(id<IMessageModel>)model
-{
-
-}
-
-- (void)setCustomBubbleView:(id<IMessageModel>)model
-{
-
-}
-
-- (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id<IMessageModel>)model
-{
-
-}*/
+ - (BOOL)isCustomBubbleView:(id<IMessageModel>)model
+ {
+ return NO;
+ }
+ 
+ - (void)setCustomModel:(id<IMessageModel>)model
+ {
+ 
+ }
+ 
+ - (void)setCustomBubbleView:(id<IMessageModel>)model
+ {
+ 
+ }
+ 
+ - (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id<IMessageModel>)model
+ {
+ 
+ }*/
 
 #pragma mark - public
 
@@ -754,17 +757,17 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
             NSAttributedString *text = [[EaseEmotionEscape sharedInstance] attStringFromTextForChatting:model.text textFont:cell.messageTextFont];
             CGRect rect = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil];
             height += (rect.size.height > 20 ? rect.size.height : 20) + 10;
-//            NSString *text = model.text;
-//            UIFont *textFont = cell.messageTextFont;
-//            CGSize retSize;
-//            if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
-//                retSize = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:textFont} context:nil].size;
-//            }else{
-//                retSize = [text sizeWithFont:textFont constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
-//            }
-//            
-//            
-//            height += (retSize.height > 20 ? retSize.height : 20) + 10;
+            //            NSString *text = model.text;
+            //            UIFont *textFont = cell.messageTextFont;
+            //            CGSize retSize;
+            //            if ([NSString instancesRespondToSelector:@selector(boundingRectWithSize:options:attributes:context:)]) {
+            //                retSize = [text boundingRectWithSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:textFont} context:nil].size;
+            //            }else{
+            //                retSize = [text sizeWithFont:textFont constrainedToSize:CGSizeMake(bubbleMaxWidth, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
+            //            }
+            //
+            //
+            //            height += (retSize.height > 20 ? retSize.height : 20) + 10;
         }
             break;
         case EMMessageBodyTypeImage:
@@ -785,7 +788,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
                 retSize.width = width;
                 retSize.height = kEMMessageImageSizeHeight;
             }
-
+            
             height += retSize.height;
         }
             break;
@@ -825,7 +828,7 @@ NSString *const EaseMessageCellIdentifierSendFile = @"EaseMessageCellSendFile";
         default:
             break;
     }
-
+    
     height += EaseMessageCellPadding;
     model.cellHeight = height;
     

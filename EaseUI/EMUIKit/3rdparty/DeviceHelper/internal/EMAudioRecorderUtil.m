@@ -10,6 +10,7 @@
  * from Hyphenate Inc.
  */
 #import "EMAudioRecorderUtil.h"
+#import "NSBundle+EaseUI.h"
 #import "EaseLocalDefine.h"
 
 static EMAudioRecorderUtil *audioRecorderUtil = nil;
@@ -116,7 +117,7 @@ static EMAudioRecorderUtil *audioRecorderUtil = nil;
     {
         _recorder = nil;
         if (completion) {
-            error = [NSError errorWithDomain:@"文件格式转换失败"
+            error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.initRecorderFail", @"Failed to initialize AVAudioRecorder")
                                         code:-1
                                     userInfo:nil];
             completion(error);

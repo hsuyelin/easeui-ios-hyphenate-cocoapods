@@ -12,9 +12,10 @@
 
 #import "EaseCustomMessageCell.h"
 
-#import "UIImageView+WebCache.h"
-#import "UIImage+GIF.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIImage+GIF.h>
 
+#import "UIImage+EaseBundle.h"
 #import "EaseBubbleView+Gif.h"
 #import "IMessageModel.h"
 
@@ -40,7 +41,7 @@
 {
     UIImage *image = model.image;
     if (!image) {
-        [self.bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:model.fileURLPath] placeholderImage:[UIImage imageNamed:model.failImageName]];
+        [self.bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:model.fileURLPath] placeholderImage:[UIImage ease_imageNamedFromMyBundle:model.failImageName]];
     } else {
         _bubbleView.imageView.image = image;
     }
@@ -56,7 +57,7 @@
 {
     [_bubbleView setupGifBubbleView];
     
-    _bubbleView.imageView.image = [UIImage imageNamed:@"imageDownloadFail"];
+    _bubbleView.imageView.image = [UIImage ease_imageNamedFromMyBundle:@"imageDownloadFail"];
 }
 
 - (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id<IMessageModel>)model

@@ -15,6 +15,7 @@
 
 #import "EaseEmotionManager.h"
 #import "EaseLocalDefine.h"
+#import "NSBundle+EaseUI.h"
 
 #define kButtomNum 5
 
@@ -71,7 +72,7 @@
     UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
     sendButton.frame = CGRectMake((kButtomNum-1)*CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetMaxY(_facialView.frame), CGRectGetWidth(_facialView.frame)/kButtomNum, CGRectGetHeight(_bottomScrollView.frame));
     [sendButton setBackgroundColor:[UIColor colorWithRed:30 / 255.0 green:167 / 255.0 blue:252 / 255.0 alpha:1.0]];
-    [sendButton setTitle:@"发送" forState:UIControlStateNormal];
+    [sendButton setTitle:NSEaseLocalizedString(@"send", @"Send") forState:UIControlStateNormal];
     [sendButton addTarget:self action:@selector(sendFace) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:sendButton];
 }

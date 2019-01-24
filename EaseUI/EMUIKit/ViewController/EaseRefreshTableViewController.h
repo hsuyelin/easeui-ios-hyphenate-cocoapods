@@ -78,5 +78,9 @@
  @return
  */
 - (void)tableViewDidFinishTriggerHeader:(BOOL)isHeader reload:(BOOL)reload;
+// iPhoneX系列机型判断
+- (void)ease_isiPhoneXSeries;
+// 导航栏高度
+- (CGFloat)ease_navigationBarHeight;
 
 @end
