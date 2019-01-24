@@ -10,14 +10,14 @@ Pod::Spec.new do |spec|
   spec.public_header_files = '**/*.{h}'
   spec.private_header_files = ['EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/amrwapper/wav.h','EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/amrwapper/amrFileCodec.h','EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb/*.h','EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb/*.h']
   spec.prefix_header_contents = '#import <UIKit/UIKit.h>'
-  spec.platform     = :ios, '8.0'
+  spec.platform     = :ios, '9.0'
   spec.vendored_libraries = ['EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrnb/libopencore-amrnb.a','EaseUI/EMUIKit/3rdparty/DeviceHelper/VoiceConvert/opencore-amrwb/libopencore-amrwb.a']
   spec.requires_arc = true
   spec.frameworks = 'Foundation', 'UIKit'
   spec.libraries    = 'stdc++'
   spec.resource     = 'EaseUI/resources/EaseUIResource.bundle'
   spec.xcconfig     = {'OTHER_LDFLAGS' => '-ObjC', 'GCC_PREPROCESSOR_DEFINITIONS' => 'ENABLE_LITE=1'}
-  spec.dependency 'MWPhotoBrowser', :git => 'https://github.com/moinku07/MWPhotoBrowser.git', :tag => '2.1.5'
+  spec.dependency 'MWPhotoBrowserNew'
   spec.dependency 'MJRefresh'
   spec.dependency 'HyphenateLite'
 end
