@@ -1404,8 +1404,8 @@ typedef enum : NSUInteger {
 {
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = self.tableView.frame;
-        rect.origin.y = 0;
-        rect.size.height = self.view.frame.size.height - toHeight - iPhoneX_BOTTOM_HEIGHT;
+        rect.origin.y = [self ease_navigationBarHeight];
+        rect.size.height = self.view.frame.size.height - toHeight - rect.origin.y - iPhoneX_BOTTOM_HEIGHT;
         self.tableView.frame = rect;
     }];
     
