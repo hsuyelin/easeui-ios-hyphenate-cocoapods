@@ -1183,7 +1183,7 @@ typedef enum : NSUInteger {
                 if (emotion) {
                     UIImage *emotionImage = [UIImage ease_imageNamedFromMyBundle:emotion.emotionOriginal];
                     if (emotionImage) {
-                        model.image = [UIImage sd_animatedGIFNamed:emotion.emotionOriginal];
+                        model.image = [UIImage sd_animatedGIFWithData:UIImagePNGRepresentation(emotionImage)];
                     }
                     model.fileURLPath = emotion.emotionOriginalURL;
                 }
