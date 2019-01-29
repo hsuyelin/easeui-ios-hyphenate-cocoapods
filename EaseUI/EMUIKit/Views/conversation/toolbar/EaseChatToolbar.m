@@ -19,6 +19,7 @@
 #import "EaseLocalDefine.h"
 #import "NSBundle+EaseUI.h"
 #import "UIImage+EaseBundle.h"
+#import "NSString+Valid.h"
 
 @interface EaseChatToolbar()<UITextViewDelegate, EMFaceDelegate>
 
@@ -584,6 +585,11 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    text = [text ease_noEmojiText];
+    if ([[[UITextInputMode currentInputMode] primaryLanguage] isEqualToString:@"emoji"]) {
+        return NO;
+    }
+    
     if ([text isEqualToString:@"\n"]) {
         if ([self.delegate respondsToSelector:@selector(didSendText:)]) {
             [self.delegate didSendText:textView.text];
@@ -618,6 +624,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
+    textView.text = [textView.text ease_noEmojiText];
     [self _willShowInputTextViewToHeight:[self _getTextViewContentH:textView]];
 }
 

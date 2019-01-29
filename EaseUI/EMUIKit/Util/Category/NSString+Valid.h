@@ -14,6 +14,25 @@
 
 @interface NSString (Valid)
 
+/**
+ 是否为中文
+
+ @return 是否为中文
+ */
 - (BOOL)isChinese;
+
+/**
+ 是否为空
+
+ @return 是否为空
+ */
+- (BOOL)ease_isBlank;
+
+/**
+ 字符串去除emoji
+
+ @return 不带emoji的字符串
+ */
+- (NSString *)ease_noEmojiText;
 
 @end

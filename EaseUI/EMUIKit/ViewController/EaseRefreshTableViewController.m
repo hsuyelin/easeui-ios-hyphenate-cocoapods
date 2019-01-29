@@ -38,7 +38,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     CGFloat navigationBarHeight = [self ease_navigationBarHeight];
     CGFloat chatbarHeight = [EaseChatToolbar defaultHeight];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, navigationBarHeight, self.view.frame.size.width, self.view.frame.size.height - navigationBarHeight - chatbarHeight - iPhoneX_BOTTOM_HEIGHT) style:self.style];
