@@ -10,24 +10,23 @@
  * from Hyphenate Inc.
  */
 
-#import <Foundation/Foundation.h>
 #import "EMCDDeviceManagerDelegate.h"
+#import <Foundation/Foundation.h>
 
-@interface EMCDDeviceManager : NSObject{
+@interface EMCDDeviceManager : NSObject {
     // recorder
-    NSDate              *_recorderStartDate;
-    NSDate              *_recorderEndDate;
-    NSString            *_currCategory;
-    BOOL                _currActive;
+    NSDate *_recorderStartDate;
+    NSDate *_recorderEndDate;
+    NSString *_currCategory;
+    BOOL _currActive;
 
     // proximitySensor
     BOOL _isSupportProximitySensor;
     BOOL _isCloseToUser;
 }
 
-@property (nonatomic, assign) id <EMCDDeviceManagerDelegate> delegate;
+@property(nonatomic, assign) id <EMCDDeviceManagerDelegate> delegate;
 
-+(EMCDDeviceManager *)sharedInstance;
-
++ (EMCDDeviceManager *)sharedInstance;
 
 @end

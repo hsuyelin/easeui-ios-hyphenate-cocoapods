@@ -5,13 +5,12 @@
 //  Created by apple on 2019/1/15.
 //
 
-#import "UIImage+EaseBundle.h"
 #import "NSBundle+EaseUI.h"
+#import "UIImage+EaseBundle.h"
 
 @implementation UIImage (EaseBundle)
 
-+ (UIImage *)ease_imageNamedFromMyBundle:(NSString *)name
-{
++ (UIImage *)ease_imageNamedFromMyBundle:(NSString *)name {
     NSBundle *imageBundle = [NSBundle ease_bundle];
     name = [name stringByAppendingString:@"@2x"];
     NSString *imagePath = [imageBundle pathForResource:name ofType:@"png"];

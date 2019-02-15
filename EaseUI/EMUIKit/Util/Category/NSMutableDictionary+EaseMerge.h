@@ -10,6 +10,7 @@
 @interface NSMutableDictionary (EaseMerge)
 
 - (void)mergingWithDictionary:(NSDictionary *)dict;
+
 - (void)mergingWithDictionary:(NSDictionary *)dict ignoredDictKey:(NSString *)ignoredKey;
 
 @end

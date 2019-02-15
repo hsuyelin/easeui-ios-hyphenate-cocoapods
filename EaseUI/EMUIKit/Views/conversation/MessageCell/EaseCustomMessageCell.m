@@ -12,12 +12,12 @@
 
 #import "EaseCustomMessageCell.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIImage+GIF.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
-#import "UIImage+EaseBundle.h"
 #import "EaseBubbleView+Gif.h"
 #import "IMessageModel.h"
+#import "UIImage+EaseBundle.h"
 
 @interface EaseCustomMessageCell ()
 
@@ -25,43 +25,41 @@
 
 @implementation EaseCustomMessageCell
 
-+ (void)initialize
-{
++ (void)initialize {
     // UIAppearance Proxy Defaults
 }
 
 #pragma mark - IModelCell
 
-- (BOOL)isCustomBubbleView:(id<IMessageModel>)model
-{
+- (BOOL)isCustomBubbleView:(id <IMessageModel>)model {
     return YES;
 }
 
-- (void)setCustomModel:(id<IMessageModel>)model
-{
+- (void)setCustomModel:(id <IMessageModel>)model {
     UIImage *image = model.image;
     if (!image) {
-        [self.bubbleView.imageView sd_setImageWithURL:[NSURL URLWithString:model.fileURLPath] placeholderImage:[UIImage ease_imageNamedFromMyBundle:model.failImageName]];
+        [self.bubbleView.imageView
+                sd_setImageWithURL:[NSURL URLWithString:model.fileURLPath]
+                  placeholderImage:[UIImage ease_imageNamedFromMyBundle:model.failImageName]];
     } else {
         _bubbleView.imageView.image = image;
     }
-    
+
     if (model.avatarURLPath) {
-        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath] placeholderImage:model.avatarImage];
+        [self.avatarView sd_setImageWithURL:[NSURL URLWithString:model.avatarURLPath]
+                           placeholderImage:model.avatarImage];
     } else {
         self.avatarView.image = model.avatarImage;
     }
 }
 
-- (void)setCustomBubbleView:(id<IMessageModel>)model
-{
+- (void)setCustomBubbleView:(id <IMessageModel>)model {
     [_bubbleView setupGifBubbleView];
-    
+
     _bubbleView.imageView.image = [UIImage ease_imageNamedFromMyBundle:@"imageDownloadFail"];
 }
 
-- (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id<IMessageModel>)model
-{
+- (void)updateCustomBubbleViewMargin:(UIEdgeInsets)bubbleMargin model:(id <IMessageModel>)model {
     [_bubbleView updateGifMargin:bubbleMargin];
 }
 
@@ -72,9 +70,8 @@
  @param model   消息model
  @return 返回cell的重用标识
  */
-+ (NSString *)cellIdentifierWithModel:(id<IMessageModel>)model
-{
-    return model.isSender?@"EaseMessageCellSendGif":@"EaseMessageCellRecvGif";
++ (NSString *)cellIdentifierWithModel:(id <IMessageModel>)model {
+    return model.isSender ? @"EaseMessageCellSendGif" : @"EaseMessageCellRecvGif";
 }
 
 /*!
@@ -84,8 +81,7 @@
  @param model   消息model
  @return  返回cell的高度
  */
-+ (CGFloat)cellHeightWithModel:(id<IMessageModel>)model
-{
++ (CGFloat)cellHeightWithModel:(id <IMessageModel>)model {
     return 100;
 }
 

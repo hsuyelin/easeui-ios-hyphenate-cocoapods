@@ -14,9 +14,9 @@
 
 @interface EaseViewController : UIViewController
 
-@property (strong, nonatomic) NSArray *rightItems;
+@property(strong, nonatomic) NSArray *rightItems;
 
-//default YES;
-@property (nonatomic) BOOL endEditingWhenTap;
+// default YES;
+@property(nonatomic) BOOL endEditingWhenTap;
 
 @end

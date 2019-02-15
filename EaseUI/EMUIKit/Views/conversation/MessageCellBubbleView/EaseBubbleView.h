@@ -10,7 +10,6 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 
 extern CGFloat const EaseMessageCellPadding;
@@ -29,45 +28,43 @@ extern NSString *const EaseMessageCellIdentifierRecvVideo;
 extern NSString *const EaseMessageCellIdentifierRecvImage;
 extern NSString *const EaseMessageCellIdentifierRecvFile;
 
-@interface EaseBubbleView : UIView
-{
+@interface EaseBubbleView : UIView {
     UIEdgeInsets _margin;
     CGFloat _fileIconSize;
 }
 
-@property (nonatomic) BOOL isSender;
+@property(nonatomic) BOOL isSender;
 
-@property (nonatomic, readonly) UIEdgeInsets margin;
+@property(nonatomic, readonly) UIEdgeInsets margin;
 
-@property (strong, nonatomic) NSMutableArray *marginConstraints;
+@property(strong, nonatomic) NSMutableArray *marginConstraints;
 
-@property (strong, nonatomic) UIImageView *backgroundImageView;
+@property(strong, nonatomic) UIImageView *backgroundImageView;
 
-//text views
-@property (strong, nonatomic) UILabel *textLabel;
+// text views
+@property(strong, nonatomic) UILabel *textLabel;
 
-//image views
-@property (strong, nonatomic) UIImageView *imageView;
+// image views
+@property(strong, nonatomic) UIImageView *imageView;
 
-//location views
-@property (strong, nonatomic) UIImageView *locationImageView;
-@property (strong, nonatomic) UILabel *locationLabel;
+// location views
+@property(strong, nonatomic) UIImageView *locationImageView;
+@property(strong, nonatomic) UILabel *locationLabel;
 
-//voice views
-@property (strong, nonatomic) UIImageView *voiceImageView;
-@property (strong, nonatomic) UILabel *voiceDurationLabel;
-@property (strong, nonatomic) UIImageView *isReadView;
+// voice views
+@property(strong, nonatomic) UIImageView *voiceImageView;
+@property(strong, nonatomic) UILabel *voiceDurationLabel;
+@property(strong, nonatomic) UIImageView *isReadView;
 
-//video views
-@property (strong, nonatomic) UIImageView *videoImageView;
-@property (strong, nonatomic) UIImageView *videoTagView;
+// video views
+@property(strong, nonatomic) UIImageView *videoImageView;
+@property(strong, nonatomic) UIImageView *videoTagView;
 
-//file views
-@property (strong, nonatomic) UIImageView *fileIconView;
-@property (strong, nonatomic) UILabel *fileNameLabel;
-@property (strong, nonatomic) UILabel *fileSizeLabel;
+// file views
+@property(strong, nonatomic) UIImageView *fileIconView;
+@property(strong, nonatomic) UILabel *fileNameLabel;
+@property(strong, nonatomic) UILabel *fileSizeLabel;
 
-- (instancetype)initWithMargin:(UIEdgeInsets)margin
-                      isSender:(BOOL)isSender;
+- (instancetype)initWithMargin:(UIEdgeInsets)margin isSender:(BOOL)isSender;
 
 @end

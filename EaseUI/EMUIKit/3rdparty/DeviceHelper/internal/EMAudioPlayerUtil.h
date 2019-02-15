@@ -20,8 +20,7 @@
 + (NSString *)playingFilePath;
 
 // Play the audio（wav）from the path
-+ (void)asyncPlayingWithPath:(NSString *)aFilePath
-                  completion:(void(^)(NSError *error))completon;
++ (void)asyncPlayingWithPath:(NSString *)aFilePath completion:(void (^)(NSError *error))completon;
 
 + (void)stopCurrentPlaying;
 

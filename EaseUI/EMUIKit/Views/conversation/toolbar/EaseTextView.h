@@ -24,13 +24,12 @@ typedef NS_ENUM(NSUInteger, DXTextViewInputViewType) {
 /*
  *  提示用户输入的标语
  */
-@property (nonatomic, copy) NSString *placeHolder;
+@property(nonatomic, copy) NSString *placeHolder;
 
 /*
  *  标语文本的颜色
  */
-@property (nonatomic, strong) UIColor *placeHolderTextColor;
-
+@property(nonatomic, strong) UIColor *placeHolderTextColor;
 
 /*
  @method
@@ -39,7 +38,6 @@ typedef NS_ENUM(NSUInteger, DXTextViewInputViewType) {
  @result        返回行数
  */
 - (NSUInteger)numberOfLinesOfText;
-
 
 /*
  @method

@@ -10,12 +10,13 @@
  * from Hyphenate Inc.
  */
 
-
-#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #if ENABLE_LITE == 1
+
 #import <HyphenateLite/HyphenateLite.h>
+
 #else
 #import <Hyphenate/Hyphenate.h>
 #endif
@@ -25,21 +26,21 @@
 /** @brief 实时音视频呼叫 */
 #define KNOTIFICATION_MAKE1V1CALL @"EMMake1v1Call"
 /** @brief 群组消息ext的字段，用于存放被@的环信id数组 */
-#define kGroupMessageAtList      @"em_at_list"
+#define kGroupMessageAtList @"em_at_list"
 /** @brief 群组消息ext字典中，kGroupMessageAtList字段的值，用于@所有人 */
-#define kGroupMessageAtAll       @"all"
+#define kGroupMessageAtAll @"all"
 /** @brief 注册SDK时，是否允许控制台输出log */
 #define kSDKConfigEnableConsoleLogger @"SDKConfigEnableConsoleLogger"
 /** @brief 使用的SDK是否为Lite版本(即不包含实时音视频功能) */
 #define kEaseUISDKConfigIsUseLite @"isUselibHyphenateClientSDKLite"
 
-@interface EaseSDKHelper : NSObject<EMClientDelegate>
+@interface EaseSDKHelper : NSObject <EMClientDelegate>
 
 /** @brief 当前是否有imagePickerViewController弹出 */
-@property (nonatomic) BOOL isShowingimagePicker;
+@property(nonatomic) BOOL isShowingimagePicker;
 
 /** @brief 使用的SDK是否为Lite版本(即不包含实时音视频功能) */
-@property (nonatomic) BOOL isLite;
+@property(nonatomic) BOOL isLite;
 
 + (instancetype)shareHelper;
 
@@ -54,11 +55,11 @@
  @param apnsCertName    上传的推送证书名
  @param otherConfig     注册SDK的额外配置(此方法目前只解析了kSDKConfigEnableConsoleLogger字段)
  */
-- (void)hyphenateApplication:(UIApplication *)application
+- (void) hyphenateApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-                    appkey:(NSString *)appkey
-              apnsCertName:(NSString *)apnsCertName
-               otherConfig:(NSDictionary *)otherConfig;
+                       appkey:(NSString *)appkey
+                 apnsCertName:(NSString *)apnsCertName
+                  otherConfig:(NSDictionary *)otherConfig;
 
 #pragma mark - receive remote notification
 

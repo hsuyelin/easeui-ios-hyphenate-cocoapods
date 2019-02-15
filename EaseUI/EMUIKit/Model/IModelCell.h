@@ -19,7 +19,7 @@
 @required
 
 /** @brief 消息对象 */
-@property (strong, nonatomic) id model;
+@property(strong, nonatomic) id model;
 
 /*!
  @method

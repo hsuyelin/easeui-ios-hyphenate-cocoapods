@@ -10,7 +10,6 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 
 #import "EaseFacialView.h"
@@ -49,7 +48,7 @@
 
 @interface EaseFaceView : UIView <EaseFacialViewDelegate>
 
-@property (nonatomic, assign) id<EMFaceDelegate> delegate;
+@property(nonatomic, assign) id <EMFaceDelegate> delegate;
 
 - (BOOL)stringIsFace:(NSString *)string;
 
@@ -61,6 +60,6 @@
  @param emotionManagers 表情分组列表
  @result
  */
-- (void)setEmotionManagers:(NSArray*)emotionManagers;
+- (void)setEmotionManagers:(NSArray *)emotionManagers;
 
 @end

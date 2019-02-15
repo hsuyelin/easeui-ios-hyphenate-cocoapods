@@ -16,12 +16,12 @@
 
 /** @brief 消息cell的协议，实现了IModelCell协议 */
 
-@protocol IModelChatCell <NSObject,IModelCell>
+@protocol IModelChatCell <NSObject, IModelCell>
 
 @required
 
 /** @brief 消息对象model */
-@property (strong, nonatomic) id model;
+@property(strong, nonatomic) id model;
 
 @optional
 

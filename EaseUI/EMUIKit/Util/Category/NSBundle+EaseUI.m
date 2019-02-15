@@ -5,16 +5,15 @@
 //  Created by apple on 2019/1/14.
 //
 
-#import "NSBundle+EaseUI.h"
 #import "EaseMessageViewController.h"
+#import "NSBundle+EaseUI.h"
 
 @implementation NSBundle (EaseUI)
 
-+ (NSBundle *)bundleWithBundleName:(NSString *)bundleName podName:(NSString *)podName
-{
++ (NSBundle *)bundleWithBundleName:(NSString *)bundleName podName:(NSString *)podName {
     if (bundleName == nil && podName == nil) {
         @throw @"bundleName和podName不能同时为空";
-    } else if (bundleName == nil ) {
+    } else if (bundleName == nil) {
         bundleName = podName;
     } else if (podName == nil) {
         podName = bundleName;
@@ -23,7 +22,8 @@
         bundleName = [bundleName componentsSeparatedByString:@".bundle"].firstObject;
     }
     // 没使用framwork的情况下
-    NSURL *associateBundleURL = [[NSBundle mainBundle] URLForResource:bundleName withExtension:@"bundle"];
+    NSURL *associateBundleURL =
+            [[NSBundle mainBundle] URLForResource:bundleName withExtension:@"bundle"];
     // 使用framework形式
     if (!associateBundleURL) {
         associateBundleURL = [[NSBundle mainBundle] URLForResource:@"Frameworks" withExtension:nil];
@@ -37,8 +37,7 @@
     return associateBundleURL ? [NSBundle bundleWithURL:associateBundleURL] : nil;
 }
 
-+ (NSBundle *)ease_bundle
-{
++ (NSBundle *)ease_bundle {
     return [NSBundle bundleWithBundleName:@"EaseUIResource" podName:@"EaseUILite"];
 }
 
@@ -47,7 +46,8 @@
 }
 
 + (NSString *)ease_localizedStringForKey:(NSString *)key value:(NSString *)value {
-    NSBundle *languageBundle = [NSBundle bundleWithPath:[[NSBundle ease_bundle] pathForResource:@"zh-Hans" ofType:@"lproj"]];
+    NSBundle *languageBundle = [NSBundle
+            bundleWithPath:[[NSBundle ease_bundle] pathForResource:@"zh-Hans" ofType:@"lproj"]];
     NSString *value1 = [languageBundle localizedStringForKey:key value:value table:nil];
     return value1;
 }

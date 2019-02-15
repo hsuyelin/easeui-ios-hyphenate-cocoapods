@@ -13,7 +13,7 @@
 #import "EaseChatBarMoreView.h"
 #import "UIImage+EaseBundle.h"
 
-#define CHAT_BUTTON_SIZE CGSizeMake(50,60)
+#define CHAT_BUTTON_SIZE CGSizeMake(50, 60)
 #define INSETS 20
 #define MOREVIEW_COL 4
 #define MOREVIEW_ROW 2
@@ -21,45 +21,39 @@
 
 @implementation UIView (MoreView)
 
-- (void)removeAllSubview
-{
-    for (UIView *view in self.subviews) {
-        [view removeFromSuperview];
-    }
+- (void)removeAllSubview {
+    for (UIView *view in self.subviews) {[view removeFromSuperview];}
 }
 
 @end
 
-@interface EaseChatBarMoreView ()<UIScrollViewDelegate>
-{
+@interface EaseChatBarMoreView () <UIScrollViewDelegate> {
     NSInteger _maxIndex;
 }
 
-@property (nonatomic) EMChatToolbarType type;
+@property(nonatomic) EMChatToolbarType type;
 
-@property (nonatomic, strong) UIScrollView *scrollview;
-@property (nonatomic, strong) UIPageControl *pageControl;
+@property(nonatomic, strong) UIScrollView *scrollview;
+@property(nonatomic, strong) UIPageControl *pageControl;
 
-@property (nonatomic, strong) UIButton *photoButton;
-@property (nonatomic, strong) UIButton *takePicButton;
-@property (nonatomic, strong) UIButton *locationButton;
-@property (nonatomic, strong) UIButton *videoButton;
-@property (nonatomic, strong) UIButton *audioCallButton;
-@property (nonatomic, strong) UIButton *videoCallButton;
+@property(nonatomic, strong) UIButton *photoButton;
+@property(nonatomic, strong) UIButton *takePicButton;
+@property(nonatomic, strong) UIButton *locationButton;
+@property(nonatomic, strong) UIButton *videoButton;
+@property(nonatomic, strong) UIButton *audioCallButton;
+@property(nonatomic, strong) UIButton *videoCallButton;
 
 @end
 
 @implementation EaseChatBarMoreView
 
-+ (void)initialize
-{
++ (void)initialize {
     // UIAppearance Proxy Defaults
     EaseChatBarMoreView *moreView = [self appearance];
     moreView.moreViewBackgroundColor = [UIColor whiteColor];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame type:(EMChatToolbarType)type
-{
+- (instancetype)initWithFrame:(CGRect)frame type:(EMChatToolbarType)type {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -69,171 +63,203 @@
     return self;
 }
 
-- (void)setupSubviewsForType:(EMChatToolbarType)type
-{
-    //self.backgroundColor = [UIColor clearColor];
+- (void)setupSubviewsForType:(EMChatToolbarType)type {
+    // self.backgroundColor = [UIColor clearColor];
     self.accessibilityIdentifier = @"more_view";
-    
+
     _scrollview = [[UIScrollView alloc] init];
     _scrollview.pagingEnabled = YES;
     _scrollview.showsHorizontalScrollIndicator = NO;
     _scrollview.showsVerticalScrollIndicator = NO;
     _scrollview.delegate = self;
     [self addSubview:_scrollview];
-    
+
     _pageControl = [[UIPageControl alloc] init];
     _pageControl.currentPage = 0;
     _pageControl.numberOfPages = 1;
     [self addSubview:_pageControl];
-    
+
     CGFloat insets = (self.frame.size.width - 4 * CHAT_BUTTON_SIZE.width) / 5;
-    
-    _photoButton = [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_photo"]
-                     highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_photoSelected"]
-                                title:@"相册"];
-    
+
+    _photoButton = [self
+            btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_photo"]
+        highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_photoSelected"]
+                   title:@"相册"];
+
     _photoButton.accessibilityIdentifier = @"image";
-    [_photoButton setFrame:CGRectMake(insets, INSETS, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-    [_photoButton addTarget:self action:@selector(photoAction) forControlEvents:UIControlEventTouchUpInside];
+    [_photoButton
+            setFrame:CGRectMake(insets, INSETS, CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+    [_photoButton addTarget:self
+                     action:@selector(photoAction)
+           forControlEvents:UIControlEventTouchUpInside];
     _photoButton.tag = MOREVIEW_BUTTON_TAG;
     [_scrollview addSubview:_photoButton];
-    
-    _locationButton = [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_location"]
-                        highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_locationSelected"]
-                                   title:@"位置"];
+
+    _locationButton = [self
+            btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_location"]
+        highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_locationSelected"]
+                   title:@"位置"];
     _locationButton.accessibilityIdentifier = @"location";
-    [_locationButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width, INSETS, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-    [_locationButton addTarget:self action:@selector(locationAction) forControlEvents:UIControlEventTouchUpInside];
+    [_locationButton setFrame:CGRectMake(insets * 2 + CHAT_BUTTON_SIZE.width, INSETS,
+            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+    [_locationButton addTarget:self
+                        action:@selector(locationAction)
+              forControlEvents:UIControlEventTouchUpInside];
     _locationButton.tag = MOREVIEW_BUTTON_TAG + 1;
     [_scrollview addSubview:_locationButton];
-    
-    _takePicButton = [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_camera"]
-                       highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_camera"]
-                                  title:@"拍照"];
-    [_takePicButton setFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE.width * 2, INSETS, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-    [_takePicButton addTarget:self action:@selector(takePicAction) forControlEvents:UIControlEventTouchUpInside];
+
+    _takePicButton =
+            [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_camera"]
+              highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_camera"]
+                         title:@"拍照"];
+    [_takePicButton setFrame:CGRectMake(insets * 3 + CHAT_BUTTON_SIZE.width * 2, INSETS,
+            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+    [_takePicButton addTarget:self
+                       action:@selector(takePicAction)
+             forControlEvents:UIControlEventTouchUpInside];
     _takePicButton.tag = MOREVIEW_BUTTON_TAG + 2;
     _maxIndex = 2;
     [_scrollview addSubview:_takePicButton];
-    
-    _audioCallButton = [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_audioCall"]
-                         highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_audioCallSelected"]
-                                    title:nil];
-    [_audioCallButton setFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE.width * 3, INSETS, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-    [_audioCallButton addTarget:self action:@selector(takeAudioCallAction) forControlEvents:UIControlEventTouchUpInside];
+
+    _audioCallButton =
+            [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_audioCall"]
+              highlightedImage:[UIImage
+                      ease_imageNamedFromMyBundle:@"chatBar_colorMore_audioCallSelected"]
+                         title:nil];
+    [_audioCallButton setFrame:CGRectMake(insets * 4 + CHAT_BUTTON_SIZE.width * 3, INSETS,
+            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+    [_audioCallButton addTarget:self
+                         action:@selector(takeAudioCallAction)
+               forControlEvents:UIControlEventTouchUpInside];
     _audioCallButton.tag = MOREVIEW_BUTTON_TAG + 3;
     [_scrollview addSubview:_audioCallButton];
-    
-    _videoCallButton = [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_videoCall"]
-                         highlightedImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_videoCallSelected"]
-                                    title:nil];
-    [_videoCallButton setFrame:CGRectMake(insets, INSETS * 2 + CHAT_BUTTON_SIZE.height, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-    [_videoCallButton addTarget:self action:@selector(takeVideoCallAction) forControlEvents:UIControlEventTouchUpInside];
-    _videoCallButton.tag =MOREVIEW_BUTTON_TAG + 4;
+
+    _videoCallButton =
+            [self btnWithImage:[UIImage ease_imageNamedFromMyBundle:@"chatBar_colorMore_videoCall"]
+              highlightedImage:[UIImage
+                      ease_imageNamedFromMyBundle:@"chatBar_colorMore_videoCallSelected"]
+                         title:nil];
+    [_videoCallButton setFrame:CGRectMake(insets, INSETS * 2 + CHAT_BUTTON_SIZE.height,
+            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+    [_videoCallButton addTarget:self
+                         action:@selector(takeVideoCallAction)
+               forControlEvents:UIControlEventTouchUpInside];
+    _videoCallButton.tag = MOREVIEW_BUTTON_TAG + 4;
     _maxIndex = 4;
     [_scrollview addSubview:_videoCallButton];
-    
+
     CGRect frame = self.frame;
     frame.size.height = 150;
     if (type == EMChatToolbarTypeChat) {
         [_audioCallButton setTitle:@"语音" forState:UIControlStateNormal];
         [_videoCallButton setTitle:@"视频" forState:UIControlStateNormal];
-    }
-    else if (type == EMChatToolbarTypeGroup)
-    {
+    } else if (type == EMChatToolbarTypeGroup) {
         [_audioCallButton setTitle:@"多人会议" forState:UIControlStateNormal];
         [_videoCallButton setTitle:@"互动会议" forState:UIControlStateNormal];
     }
     self.frame = frame;
     _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
     _pageControl.frame = CGRectMake(0, CGRectGetHeight(frame) - 20, CGRectGetWidth(frame), 20);
-    _pageControl.hidden = _pageControl.numberOfPages<=1;
+    _pageControl.hidden = _pageControl.numberOfPages <= 1;
 }
 
-- (UIButton *)btnWithImage:(UIImage *)aImage highlightedImage:(UIImage *)aHighLightedImage title:(NSString *)aTitle {
+- (UIButton *)btnWithImage:(UIImage *)aImage
+          highlightedImage:(UIImage *)aHighLightedImage
+                     title:(NSString *)aTitle {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:aImage forState:UIControlStateNormal];
     [btn setImage:aHighLightedImage forState:UIControlStateHighlighted];
     [btn setTitle:aTitle forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+    btn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     btn.imageEdgeInsets = UIEdgeInsetsMake(-10, 0, 20, 0);
     btn.titleEdgeInsets = UIEdgeInsetsMake(14, -60, -20, 0);
     return btn;
 }
 
-- (void)insertItemWithImage:(UIImage *)image highlightedImage:(UIImage *)highLightedImage title:(NSString *)title
-{
+- (void)insertItemWithImage:(UIImage *)image
+           highlightedImage:(UIImage *)highLightedImage
+                      title:(NSString *)title {
     CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE.width) / 5;
     CGRect frame = self.frame;
     _maxIndex++;
-    NSInteger pageSize = MOREVIEW_COL*MOREVIEW_ROW;
-    NSInteger page = _maxIndex/pageSize;
-    NSInteger row = (_maxIndex%pageSize)/MOREVIEW_COL;
-    NSInteger col = _maxIndex%MOREVIEW_COL;
+    NSInteger pageSize = MOREVIEW_COL * MOREVIEW_ROW;
+    NSInteger page = _maxIndex / pageSize;
+    NSInteger row = (_maxIndex % pageSize) / MOREVIEW_COL;
+    NSInteger col = _maxIndex % MOREVIEW_COL;
     UIButton *moreButton = [self btnWithImage:image highlightedImage:highLightedImage title:title];
-    [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE.width * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
+    [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) +
+                    CHAT_BUTTON_SIZE.width * col,
+            INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row,
+            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
     [moreButton setImage:image forState:UIControlStateNormal];
     [moreButton setImage:highLightedImage forState:UIControlStateHighlighted];
-    [moreButton addTarget:self action:@selector(moreAction:) forControlEvents:UIControlEventTouchUpInside];
-    moreButton.tag = MOREVIEW_BUTTON_TAG+_maxIndex;
+    [moreButton addTarget:self
+                   action:@selector(moreAction:)
+         forControlEvents:UIControlEventTouchUpInside];
+    moreButton.tag = MOREVIEW_BUTTON_TAG + _maxIndex;
     [_scrollview addSubview:moreButton];
-    [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1), CGRectGetHeight(self.frame))];
+    [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1),
+            CGRectGetHeight(self.frame))];
     [_pageControl setNumberOfPages:page + 1];
-    if (_maxIndex >=5) {
+    if (_maxIndex >= 5) {
         frame.size.height = 150;
         _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
         _pageControl.frame = CGRectMake(0, CGRectGetHeight(frame) - 20, CGRectGetWidth(frame), 20);
     }
     self.frame = frame;
-    _pageControl.hidden = _pageControl.numberOfPages<=1;
+    _pageControl.hidden = _pageControl.numberOfPages <= 1;
 }
 
-- (void)updateItemWithImage:(UIImage *)image highlightedImage:(UIImage *)highLightedImage title:(NSString *)title atIndex:(NSInteger)index
-{
-    UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG+index];
+- (void)updateItemWithImage:(UIImage *)image
+           highlightedImage:(UIImage *)highLightedImage
+                      title:(NSString *)title
+                    atIndex:(NSInteger)index {
+    UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG + index];
     if (moreButton && [moreButton isKindOfClass:[UIButton class]]) {
-        [(UIButton*)moreButton setImage:image forState:UIControlStateNormal];
-        [(UIButton*)moreButton setImage:highLightedImage forState:UIControlStateHighlighted];
+        [(UIButton *) moreButton setImage:image forState:UIControlStateNormal];
+        [(UIButton *) moreButton setImage:highLightedImage forState:UIControlStateHighlighted];
     }
 }
 
-- (void)removeItematIndex:(NSInteger)index
-{
-    UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG+index];
+- (void)removeItematIndex:(NSInteger)index {
+    UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG + index];
     if (moreButton && [moreButton isKindOfClass:[UIButton class]]) {
         [self _resetItemFromIndex:index];
         [moreButton removeFromSuperview];
     }
 }
 
-- (void)enableScroll:(BOOL)enabled
-{
+- (void)enableScroll:(BOOL)enabled {
     _scrollview.scrollEnabled = enabled;
 }
 
 #pragma mark - private
 
-- (void)_resetItemFromIndex:(NSInteger)index
-{
+- (void)_resetItemFromIndex:(NSInteger)index {
     CGFloat insets = (self.frame.size.width - MOREVIEW_COL * CHAT_BUTTON_SIZE.width) / 5;
     CGRect frame = self.frame;
-    for (NSInteger i = index + 1; i<_maxIndex + 1; i++) {
-        UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG+i];
+    for (NSInteger i = index + 1; i < _maxIndex + 1; i++) {
+        UIView *moreButton = [_scrollview viewWithTag:MOREVIEW_BUTTON_TAG + i];
         if (moreButton && [moreButton isKindOfClass:[UIButton class]]) {
             NSInteger moveToIndex = i - 1;
-            NSInteger pageSize = MOREVIEW_COL*MOREVIEW_ROW;
-            NSInteger page = moveToIndex/pageSize;
-            NSInteger row = (moveToIndex%pageSize)/MOREVIEW_COL;
-            NSInteger col = moveToIndex%MOREVIEW_COL;
-            [moreButton setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) + CHAT_BUTTON_SIZE.width * col, INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row, CHAT_BUTTON_SIZE.width , CHAT_BUTTON_SIZE.height)];
-            moreButton.tag = MOREVIEW_BUTTON_TAG+moveToIndex;
-            [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1), CGRectGetHeight(self.frame))];
+            NSInteger pageSize = MOREVIEW_COL * MOREVIEW_ROW;
+            NSInteger page = moveToIndex / pageSize;
+            NSInteger row = (moveToIndex % pageSize) / MOREVIEW_COL;
+            NSInteger col = moveToIndex % MOREVIEW_COL;
+            [moreButton
+                    setFrame:CGRectMake(page * CGRectGetWidth(self.frame) + insets * (col + 1) +
+                                    CHAT_BUTTON_SIZE.width * col,
+                            INSETS + INSETS * 2 * row + CHAT_BUTTON_SIZE.height * row,
+                            CHAT_BUTTON_SIZE.width, CHAT_BUTTON_SIZE.height)];
+            moreButton.tag = MOREVIEW_BUTTON_TAG + moveToIndex;
+            [_scrollview setContentSize:CGSizeMake(CGRectGetWidth(self.frame) * (page + 1),
+                    CGRectGetHeight(self.frame))];
             [_pageControl setNumberOfPages:page + 1];
         }
     }
     _maxIndex--;
-    if (_maxIndex >=5) {
+    if (_maxIndex >= 5) {
         frame.size.height = 150;
     } else {
         frame.size.height = 80;
@@ -241,7 +267,7 @@
     self.frame = frame;
     _scrollview.frame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
     _pageControl.frame = CGRectMake(0, CGRectGetHeight(frame) - 20, CGRectGetWidth(frame), 20);
-    _pageControl.hidden = _pageControl.numberOfPages<=1;
+    _pageControl.hidden = _pageControl.numberOfPages <= 1;
 }
 
 #pragma setter
@@ -261,12 +287,9 @@
 //    }
 //}
 
-- (void)setMoreViewBackgroundColor:(UIColor *)moreViewBackgroundColor
-{
+- (void)setMoreViewBackgroundColor:(UIColor *)moreViewBackgroundColor {
     _moreViewBackgroundColor = moreViewBackgroundColor;
-    if (_moreViewBackgroundColor) {
-        [self setBackgroundColor:_moreViewBackgroundColor];
-    }
+    if (_moreViewBackgroundColor) {[self setBackgroundColor:_moreViewBackgroundColor];}
 }
 
 /*
@@ -285,7 +308,7 @@
  }
  }
  }
- 
+
  - (void)setMoreViewButtonHignlightImages:(NSArray *)moreViewButtonHignlightImages
  {
  _moreViewButtonHignlightImages = moreViewButtonHignlightImages;
@@ -295,7 +318,8 @@
  UIButton *button = (UIButton *)view;
  if (button.tag < [_moreViewButtonHignlightImages count]) {
  NSString *imageName = [_moreViewButtonHignlightImages objectAtIndex:button.tag];
- [button setImage:[UIImage ease_imageNamedFromMyBundle:imageName] forState:UIControlStateHighlighted];
+ [button setImage:[UIImage ease_imageNamedFromMyBundle:imageName]
+ forState:UIControlStateHighlighted];
  }
  }
  }
@@ -304,9 +328,8 @@
 
 #pragma mark - UIScrollViewDelegate
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    CGPoint offset =  scrollView.contentOffset;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    CGPoint offset = scrollView.contentOffset;
     if (offset.x == 0) {
         _pageControl.currentPage = 0;
     } else {
@@ -317,28 +340,25 @@
 
 #pragma mark - action
 
-- (void)takePicAction{
-    if(_delegate && [_delegate respondsToSelector:@selector(moreViewTakePicAction:)]){
+- (void)takePicAction {
+    if (_delegate && [_delegate respondsToSelector:@selector(moreViewTakePicAction:)]) {
         [_delegate moreViewTakePicAction:self];
     }
 }
 
-- (void)photoAction
-{
+- (void)photoAction {
     if (_delegate && [_delegate respondsToSelector:@selector(moreViewPhotoAction:)]) {
         [_delegate moreViewPhotoAction:self];
     }
 }
 
-- (void)locationAction
-{
+- (void)locationAction {
     if (_delegate && [_delegate respondsToSelector:@selector(moreViewLocationAction:)]) {
         [_delegate moreViewLocationAction:self];
     }
 }
 
-- (void)takeAudioCallAction
-{
+- (void)takeAudioCallAction {
     if (_delegate) {
         if (self.type == EMChatToolbarTypeChat) {
             if ([_delegate respondsToSelector:@selector(moreViewAudioCallAction:)]) {
@@ -352,8 +372,7 @@
     }
 }
 
-- (void)takeVideoCallAction
-{
+- (void)takeVideoCallAction {
     if (_delegate) {
         if (self.type == EMChatToolbarTypeChat) {
             if ([_delegate respondsToSelector:@selector(moreViewVideoCallAction:)]) {
@@ -367,11 +386,11 @@
     }
 }
 
-- (void)moreAction:(id)sender
-{
-    UIButton *button = (UIButton*)sender;
-    if (button && _delegate && [_delegate respondsToSelector:@selector(moreView:didItemInMoreViewAtIndex:)]) {
-        [_delegate moreView:self didItemInMoreViewAtIndex:button.tag-MOREVIEW_BUTTON_TAG];
+- (void)moreAction:(id)sender {
+    UIButton *button = (UIButton *) sender;
+    if (button && _delegate &&
+            [_delegate respondsToSelector:@selector(moreView:didItemInMoreViewAtIndex:)]) {
+        [_delegate moreView:self didItemInMoreViewAtIndex:button.tag - MOREVIEW_BUTTON_TAG];
     }
 }
 

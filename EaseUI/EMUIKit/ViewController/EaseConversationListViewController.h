@@ -12,11 +12,13 @@
 
 #import "EaseRefreshTableViewController.h"
 
-#import "EaseConversationModel.h"
 #import "EaseConversationCell.h"
+#import "EaseConversationModel.h"
 
 #if ENABLE_LITE == 1
+
 #import <HyphenateLite/HyphenateLite.h>
+
 #else
 #import <Hyphenate/Hyphenate.h>
 #endif
@@ -38,8 +40,9 @@ typedef NS_ENUM(int, DXDeleteConvesationType) {
  @param IConversationModel 会话模型
  @result
  */
-- (void)conversationListViewController:(EaseConversationListViewController *)conversationListViewController
-            didSelectConversationModel:(id<IConversationModel>)conversationModel;
+- (void)conversationListViewController:
+        (EaseConversationListViewController *)conversationListViewController
+            didSelectConversationModel:(id <IConversationModel>)conversationModel;
 
 @optional
 
@@ -50,13 +53,15 @@ typedef NS_ENUM(int, DXDeleteConvesationType) {
 /*!
  @method
  @brief 构建实现协议IConversationModel的model
- @discussion 用户可以创建实现协议IConversationModel的自定义conversationModel对象，按照业务需要设置属性值
+ @discussion
+ 用户可以创建实现协议IConversationModel的自定义conversationModel对象，按照业务需要设置属性值
  @param conversationListViewController 当前会话列表视图
  @param conversation 会话对象
  @result 返回实现协议IConversationModel的model对象
  */
-- (id<IConversationModel>)conversationListViewController:(EaseConversationListViewController *)conversationListViewController
-                        modelForConversation:(EMConversation *)conversation;
+- (id <IConversationModel>)conversationListViewController:
+        (EaseConversationListViewController *)conversationListViewController
+                                     modelForConversation:(EMConversation *)conversation;
 
 @optional
 
@@ -68,8 +73,9 @@ typedef NS_ENUM(int, DXDeleteConvesationType) {
  @param IConversationModel 会话模型
  @result 返回用户最后一条消息显示的内容
  */
-- (NSAttributedString *)conversationListViewController:(EaseConversationListViewController *)conversationListViewController
-      latestMessageTitleForConversationModel:(id<IConversationModel>)conversationModel;
+- (NSAttributedString *)conversationListViewController:
+        (EaseConversationListViewController *)conversationListViewController
+                latestMessageTitleForConversationModel:(id <IConversationModel>)conversationModel;
 
 /*!
  @method
@@ -79,16 +85,17 @@ typedef NS_ENUM(int, DXDeleteConvesationType) {
  @param IConversationModel 会话模型
  @result 返回用户最后一条消息时间的显示文案
  */
-- (NSString *)conversationListViewController:(EaseConversationListViewController *)conversationListViewController
-       latestMessageTimeForConversationModel:(id<IConversationModel>)conversationModel;
+- (NSString *)conversationListViewController:
+        (EaseConversationListViewController *)conversationListViewController
+       latestMessageTimeForConversationModel:(id <IConversationModel>)conversationModel;
 
 @end
 
+@interface EaseConversationListViewController
+        : EaseRefreshTableViewController <EMChatManagerDelegate, EMGroupManagerDelegate>
 
-@interface EaseConversationListViewController : EaseRefreshTableViewController <EMChatManagerDelegate,EMGroupManagerDelegate>
-
-@property (weak, nonatomic) id<EaseConversationListViewControllerDelegate> delegate;
-@property (weak, nonatomic) id<EaseConversationListViewControllerDataSource> dataSource;
+@property(weak, nonatomic) id <EaseConversationListViewControllerDelegate> delegate;
+@property(weak, nonatomic) id <EaseConversationListViewControllerDataSource> dataSource;
 
 /*!
  @method

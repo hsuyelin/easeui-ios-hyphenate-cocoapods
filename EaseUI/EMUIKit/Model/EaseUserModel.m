@@ -15,15 +15,14 @@
 
 @implementation EaseUserModel
 
-- (instancetype)initWithBuddy:(NSString *)buddy
-{
+- (instancetype)initWithBuddy:(NSString *)buddy {
     self = [super init];
     if (self) {
         _buddy = buddy;
         _nickname = @"";
         _avatarImage = [UIImage ease_imageNamedFromMyBundle:@"user"];
     }
-    
+
     return self;
 }
 

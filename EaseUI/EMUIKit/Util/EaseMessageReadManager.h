@@ -15,16 +15,18 @@
 #import "EaseMessageModel.h"
 
 typedef void (^FinishBlock)(BOOL success);
+
 typedef void (^PlayBlock)(BOOL playing, EaseMessageModel *messageModel);
 
 @class MWPhotoBrowser;
 @class EMChatFireBubbleView;
+
 @interface EaseMessageReadManager : NSObject
 
-@property (strong, nonatomic) MWPhotoBrowser *photoBrowser;
-@property (strong, nonatomic) FinishBlock finishBlock;
+@property(strong, nonatomic) MWPhotoBrowser *photoBrowser;
+@property(strong, nonatomic) FinishBlock finishBlock;
 
-@property (strong, nonatomic) EaseMessageModel *audioMessageModel;
+@property(strong, nonatomic) EaseMessageModel *audioMessageModel;
 
 + (id)defaultManager;
 
@@ -40,13 +42,15 @@ typedef void (^PlayBlock)(BOOL playing, EaseMessageModel *messageModel);
 /*!
  @method
  @brief 语音消息是否可以播放
- @discussion 若传入的语音消息正在播放，停止播放并重置isMediaPlaying，返回NO；否则当前语音消息isMediaPlaying设为yes，记录的上一条语音消息isMediaPlaying重置，更新消息ext，返回yes
+ @discussion
+ 若传入的语音消息正在播放，停止播放并重置isMediaPlaying，返回NO；否则当前语音消息isMediaPlaying设为yes，记录的上一条语音消息isMediaPlaying重置，更新消息ext，返回yes
  @param messageModel   选中的语音消息model
  @param updateCompletion  语音消息model更新后的回调
  @return
  */
 - (BOOL)prepareMessageAudioModel:(EaseMessageModel *)messageModel
-            updateViewCompletion:(void (^)(EaseMessageModel *prevAudioModel, EaseMessageModel *currentAudioModel))updateCompletion;
+            updateViewCompletion:(void (^)(EaseMessageModel *prevAudioModel,
+                    EaseMessageModel *currentAudioModel))updateCompletion;
 
 /*!
  @method

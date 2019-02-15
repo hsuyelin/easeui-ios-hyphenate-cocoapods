@@ -12,9 +12,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "IUserModel.h"
-#import "IModelCell.h"
 #import "EaseImageView.h"
+#import "IModelCell.h"
+#import "IUserModel.h"
 
 static CGFloat EaseUserCellMinHeight = 50;
 
@@ -22,30 +22,30 @@ static CGFloat EaseUserCellMinHeight = 50;
 
 /** @brief 好友(用户)列表自定义UITableViewCell */
 
-@interface EaseUserCell : UITableViewCell<IModelCell>
+@interface EaseUserCell : UITableViewCell <IModelCell>
 
-@property (weak, nonatomic) id<EaseUserCellDelegate> delegate;
+@property(weak, nonatomic) id <EaseUserCellDelegate> delegate;
 
 /** @brief 头像 */
-@property (strong, nonatomic) EaseImageView *avatarView;
+@property(strong, nonatomic) EaseImageView *avatarView;
 
 /** @brief 昵称(环信id) */
-@property (strong, nonatomic) UILabel *titleLabel;
+@property(strong, nonatomic) UILabel *titleLabel;
 
 /** @brief 用户model */
-@property (strong, nonatomic) id<IUserModel> model;
+@property(strong, nonatomic) id <IUserModel> model;
 
 /** @brief 是否显示头像，默认为YES */
-@property (nonatomic) BOOL showAvatar;
+@property(nonatomic) BOOL showAvatar;
 
 /** @brief 当前cell在tabeleView的位置 */
-@property (strong, nonatomic) NSIndexPath *indexPath;
+@property(strong, nonatomic) NSIndexPath *indexPath;
 
 /** @brief titleLabel的字体 */
-@property (nonatomic) UIFont *titleLabelFont UI_APPEARANCE_SELECTOR;
+@property(nonatomic) UIFont *titleLabelFont UI_APPEARANCE_SELECTOR;
 
 /** @brief titleLabel的文字颜色 */
-@property (nonatomic) UIColor *titleLabelColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic) UIColor *titleLabelColor UI_APPEARANCE_SELECTOR;
 
 @end
 

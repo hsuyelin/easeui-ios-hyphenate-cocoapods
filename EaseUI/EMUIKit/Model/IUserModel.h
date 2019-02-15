@@ -10,22 +10,23 @@
  * from Hyphenate Inc.
  */
 
-#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /** @brief 环信用户模型协议 */
 
 @class EMBuddy;
+
 @protocol IUserModel <NSObject>
 
 /** @brief 好友环信id(用户环信id) */
-@property (strong, nonatomic, readonly) NSString *buddy;
+@property(strong, nonatomic, readonly) NSString *buddy;
 /** @brief 用户昵称 */
-@property (strong, nonatomic) NSString *nickname;
+@property(strong, nonatomic) NSString *nickname;
 /** @brief 用户头像url */
-@property (strong, nonatomic) NSString *avatarURLPath;
+@property(strong, nonatomic) NSString *avatarURLPath;
 /** @brief 用户头像 */
-@property (strong, nonatomic) UIImage *avatarImage;
+@property(strong, nonatomic) UIImage *avatarImage;
 
 /*!
  @method

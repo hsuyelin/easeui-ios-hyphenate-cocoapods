@@ -10,16 +10,12 @@
 @implementation EaseTransparentBgLabel
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _textInsets = UIEdgeInsetsZero;
-    }
+    if (self = [super init]) {_textInsets = UIEdgeInsetsZero;}
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        _textInsets = UIEdgeInsetsZero;
-    }
+    if (self = [super initWithFrame:frame]) {_textInsets = UIEdgeInsetsZero;}
     return self;
 }
 

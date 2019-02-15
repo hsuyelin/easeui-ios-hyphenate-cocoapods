@@ -10,7 +10,6 @@
  * from Hyphenate Inc.
  */
 
-
 #import "EaseBubbleView.h"
 
 @interface EaseBubbleView (Voice)

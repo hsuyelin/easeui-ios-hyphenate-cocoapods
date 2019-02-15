@@ -10,6 +10,7 @@
 @implementation UIFont (EaseFont)
 
 #pragma mark - public
+
 + (UIFont *)ease_pingfangFontOfSize:(CGFloat)fontSize {
     return [UIFont ease_pingfangFontOfSize:fontSize weight:UIFontWeightRegular];
 }
@@ -33,9 +34,11 @@
 }
 
 #pragma mark - private
+
 + (BOOL)ease_fontIsExist:(NSString *)fontName fontSize:(CGFloat)fontSize {
     UIFont *aFont = [UIFont fontWithName:fontName size:fontSize];
-    if (aFont && ([aFont.fontName compare:fontName] == NSOrderedSame || [aFont.familyName compare:fontName] == NSOrderedSame)) {
+    if (aFont && ([aFont.fontName compare:fontName] == NSOrderedSame ||
+            [aFont.familyName compare:fontName] == NSOrderedSame)) {
         return YES;
     } else {
         return NO;

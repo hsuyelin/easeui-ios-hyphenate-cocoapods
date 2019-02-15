@@ -19,26 +19,26 @@
 #import "EaseUsersListViewController.h"
 #import "EaseViewController.h"
 
-#import "IModelCell.h"
-#import "IModelChatCell.h"
-#import "EaseMessageCell.h"
 #import "EaseBaseMessageCell.h"
 #import "EaseBubbleView.h"
+#import "EaseMessageCell.h"
 #import "EaseUserCell.h"
+#import "IModelCell.h"
+#import "IModelChatCell.h"
 
+#import "EMCDDeviceManager.h"
 #import "EaseChineseToPinyin.h"
+#import "EaseConvertToCommonEmoticonsHelper.h"
 #import "EaseEmoji.h"
 #import "EaseEmotionEscape.h"
 #import "EaseEmotionManager.h"
 #import "EaseSDKHelper.h"
-#import "EMCDDeviceManager.h"
-#import "EaseConvertToCommonEmoticonsHelper.h"
 
+#import "EaseLocalDefine.h"
 #import "NSDate+Category.h"
 #import "NSString+Valid.h"
-#import "UIViewController+HUD.h"
 #import "UIViewController+DismissKeyboard.h"
-#import "EaseLocalDefine.h"
+#import "UIViewController+HUD.h"
 
 @interface EaseUI : NSObject
 

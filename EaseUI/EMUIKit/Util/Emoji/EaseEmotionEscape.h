@@ -17,19 +17,20 @@
 
 + (EaseEmotionEscape *)sharedInstance;
 
-+ (NSMutableAttributedString *) attributtedStringFromText:(NSString *) aInputText;
++ (NSMutableAttributedString *)attributtedStringFromText:(NSString *)aInputText;
 
-+ (NSAttributedString *) attStringFromTextForChatting:(NSString *) aInputText;
++ (NSAttributedString *)attStringFromTextForChatting:(NSString *)aInputText;
 
-+ (NSAttributedString *) attStringFromTextForInputView:(NSString *) aInputText;
++ (NSAttributedString *)attStringFromTextForInputView:(NSString *)aInputText;
 
-- (NSAttributedString *) attStringFromTextForChatting:(NSString *) aInputText textFont:(UIFont*)font;
+- (NSAttributedString *)attStringFromTextForChatting:(NSString *)aInputText textFont:(UIFont *)font;
 
-- (NSAttributedString *) attStringFromTextForInputView:(NSString *) aInputText textFont:(UIFont*)font;
+- (NSAttributedString *)attStringFromTextForInputView:(NSString *)aInputText
+                                             textFont:(UIFont *)font;
 
-- (void) setEaseEmotionEscapePattern:(NSString*)pattern;
+- (void)setEaseEmotionEscapePattern:(NSString *)pattern;
 
-- (void) setEaseEmotionEscapeDictionary:(NSDictionary*)dict;
+- (void)setEaseEmotionEscapeDictionary:(NSDictionary *)dict;
 
 @end
 

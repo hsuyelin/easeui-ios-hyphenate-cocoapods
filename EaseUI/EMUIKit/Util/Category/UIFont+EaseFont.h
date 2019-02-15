@@ -10,8 +10,11 @@
 @interface UIFont (EaseFont)
 
 + (UIFont *)ease_pingfangFontOfSize:(CGFloat)fontSize;
+
 + (UIFont *)ease_mediumPingfangFontOfSize:(CGFloat)fontSize;
+
 + (UIFont *)ease_boldPingfangFontOfSize:(CGFloat)fontSize;
+
 + (UIFont *)ease_pingfangFontOfSize:(CGFloat)fontSize weight:(UIFontWeight)weight;
 
 @end

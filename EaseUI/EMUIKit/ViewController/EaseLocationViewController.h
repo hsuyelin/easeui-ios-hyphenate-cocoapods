@@ -10,8 +10,8 @@
  * from Hyphenate Inc.
  */
 
-#import <MapKit/MapKit.h>
 #import "EaseViewController.h"
+#import <MapKit/MapKit.h>
 
 @protocol EMLocationViewDelegate <NSObject>
 
@@ -24,14 +24,14 @@
  @param address     地址信息
  @result
  */
--(void)sendLocationLatitude:(double)latitude
-                  longitude:(double)longitude
-                 andAddress:(NSString *)address;
+- (void)sendLocationLatitude:(double)latitude
+                   longitude:(double)longitude
+                  andAddress:(NSString *)address;
 @end
 
 @interface EaseLocationViewController : EaseViewController
 
-@property (nonatomic, assign) id<EMLocationViewDelegate> delegate;
+@property(nonatomic, assign) id <EMLocationViewDelegate> delegate;
 
 - (instancetype)initWithLocation:(CLLocationCoordinate2D)locationCoordinate;
 

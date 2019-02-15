@@ -23,25 +23,27 @@
 
 class WavWriter {
 public:
-	WavWriter(const char *filename, int sampleRate, int bitsPerSample, int channels);
-	~WavWriter();
+    WavWriter(const char *filename, int sampleRate, int bitsPerSample, int channels);
 
-	void writeData(const unsigned char* data, int length);
+    ~WavWriter();
+
+    void writeData(const unsigned char *data, int length);
 
 private:
-	void writeString(const char *str);
-	void writeInt32(int value);
-	void writeInt16(int value);
+    void writeString(const char *str);
 
-	void writeHeader(int length);
+    void writeInt32(int value);
 
-	FILE *wav;
-	int dataLength;
+    void writeInt16(int value);
 
-	int sampleRate;
-	int bitsPerSample;
-	int channels;
+    void writeHeader(int length);
+
+    FILE *wav;
+    int dataLength;
+
+    int sampleRate;
+    int bitsPerSample;
+    int channels;
 };
 
 #endif
-

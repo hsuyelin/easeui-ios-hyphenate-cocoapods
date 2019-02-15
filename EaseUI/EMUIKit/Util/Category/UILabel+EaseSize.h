@@ -9,7 +9,8 @@
 
 @interface UILabel (EaseSize)
 
-+ (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont*)font;
++ (CGFloat)getHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font;
+
 + (CGFloat)getWidthByHeight:(CGFloat)height title:(NSString *)title font:(UIFont *)font;
 
 @end

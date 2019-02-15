@@ -10,28 +10,28 @@
  * from Hyphenate Inc.
  */
 
-#import <UIKit/UIKit.h>
 #import "EMCDDeviceManagerBase.h"
 #import "EMCDDeviceManager+ProximitySensor.h"
+#import <UIKit/UIKit.h>
 
 static EMCDDeviceManager *emCDDeviceManager;
-@interface EMCDDeviceManager (){
 
+@interface EMCDDeviceManager () {
 }
 
 @end
 
 @implementation EMCDDeviceManager
-+(EMCDDeviceManager *)sharedInstance{
++ (EMCDDeviceManager *)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         emCDDeviceManager = [[EMCDDeviceManager alloc] init];
     });
-    
+
     return emCDDeviceManager;
 }
 
--(instancetype)init{
+- (instancetype)init {
     if (self = [super init]) {
         [self _setupProximitySensor];
         [self registerNotifications];
@@ -39,8 +39,7 @@ static EMCDDeviceManager *emCDDeviceManager;
     return self;
 }
 
-- (void)registerNotifications
-{
+- (void)registerNotifications {
     [self unregisterNotifications];
     if (_isSupportProximitySensor) {
         static NSString *notif = @"UIDeviceProximityStateDidChangeNotification";
@@ -54,23 +53,18 @@ static EMCDDeviceManager *emCDDeviceManager;
 - (void)unregisterNotifications {
     if (_isSupportProximitySensor) {
         static NSString *notif = @"UIDeviceProximityStateDidChangeNotification";
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:notif
-                                                      object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:notif object:nil];
     }
 }
 
-- (void)_setupProximitySensor
-{
+- (void)_setupProximitySensor {
     UIDevice *device = [UIDevice currentDevice];
     [device setProximityMonitoringEnabled:YES];
     _isSupportProximitySensor = device.proximityMonitoringEnabled;
     if (_isSupportProximitySensor) {
         [device setProximityMonitoringEnabled:NO];
     } else {
-        
     }
 }
-
 
 @end

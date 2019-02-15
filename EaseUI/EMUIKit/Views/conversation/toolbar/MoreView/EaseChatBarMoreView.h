@@ -12,20 +12,21 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum{
+typedef enum {
     EMChatToolbarTypeChat,
     EMChatToolbarTypeGroup,
-}EMChatToolbarType;
+} EMChatToolbarType;
 
 @protocol EaseChatBarMoreViewDelegate;
+
 @interface EaseChatBarMoreView : UIView
 
-@property (nonatomic,assign) id<EaseChatBarMoreViewDelegate> delegate;
+@property(nonatomic, assign) id <EaseChatBarMoreViewDelegate> delegate;
 
-@property (nonatomic) UIColor *moreViewBackgroundColor UI_APPEARANCE_SELECTOR;  //moreview背景颜色,default whiteColor
+@property(nonatomic) UIColor *moreViewBackgroundColor UI_APPEARANCE_SELECTOR; // moreview背景颜色,default whiteColor
 
 /*
- 
+
  */
 - (instancetype)initWithFrame:(CGRect)frame type:(EMChatToolbarType)type;
 
@@ -38,9 +39,9 @@ typedef enum{
  @param title 按钮标题
  @result
  */
-- (void)insertItemWithImage:(UIImage*)image
-           highlightedImage:(UIImage*)highLightedImage
-                      title:(NSString*)title;
+- (void)insertItemWithImage:(UIImage *)image
+           highlightedImage:(UIImage *)highLightedImage
+                      title:(NSString *)title;
 
 /*!
  @method
@@ -52,9 +53,9 @@ typedef enum{
  @param index 按钮索引
  @result
  */
-- (void)updateItemWithImage:(UIImage*)image
-           highlightedImage:(UIImage*)highLightedImage
-                      title:(NSString*)title
+- (void)updateItemWithImage:(UIImage *)image
+           highlightedImage:(UIImage *)highLightedImage
+                      title:(NSString *)title
                     atIndex:(NSInteger)index;
 
 /*!

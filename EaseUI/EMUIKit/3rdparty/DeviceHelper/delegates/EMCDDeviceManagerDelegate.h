@@ -10,8 +10,8 @@
  * from Hyphenate Inc.
  */
 
-#import <Foundation/Foundation.h>
 #import "EMCDDeviceManagerProximitySensorDelegate.h"
+#import <Foundation/Foundation.h>
 
 @protocol EMCDDeviceManagerDelegate <EMCDDeviceManagerProximitySensorDelegate>
 

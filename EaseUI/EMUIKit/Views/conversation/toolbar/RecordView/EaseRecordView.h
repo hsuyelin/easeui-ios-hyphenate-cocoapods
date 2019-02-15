@@ -10,24 +10,23 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 
-typedef enum{
+typedef enum {
     EaseRecordViewTypeTouchDown,
     EaseRecordViewTypeTouchUpInside,
     EaseRecordViewTypeTouchUpOutside,
     EaseRecordViewTypeDragInside,
     EaseRecordViewTypeDragOutside,
-}EaseRecordViewType;
+} EaseRecordViewType;
 
 @interface EaseRecordView : UIView
 
-@property (nonatomic) NSArray *voiceMessageAnimationImages UI_APPEARANCE_SELECTOR;
+@property(nonatomic) NSArray *voiceMessageAnimationImages UI_APPEARANCE_SELECTOR;
 
-@property (nonatomic) NSString *upCancelText UI_APPEARANCE_SELECTOR;
+@property(nonatomic) NSString *upCancelText UI_APPEARANCE_SELECTOR;
 
-@property (nonatomic) NSString *loosenCancelText UI_APPEARANCE_SELECTOR;
+@property(nonatomic) NSString *loosenCancelText UI_APPEARANCE_SELECTOR;
 
 /*
  @method
@@ -36,7 +35,7 @@ typedef enum{
  @param
  @result
  */
--(void)recordButtonTouchDown;
+- (void)recordButtonTouchDown;
 
 /*
  @method
@@ -45,7 +44,7 @@ typedef enum{
  @param
  @result
  */
--(void)recordButtonTouchUpInside;
+- (void)recordButtonTouchUpInside;
 
 /*
  @method
@@ -54,7 +53,7 @@ typedef enum{
  @param
  @result
  */
--(void)recordButtonTouchUpOutside;
+- (void)recordButtonTouchUpOutside;
 
 /*
  @method
@@ -63,7 +62,7 @@ typedef enum{
  @param
  @result
  */
--(void)recordButtonDragInside;
+- (void)recordButtonDragInside;
 
 /*
  @method
@@ -72,6 +71,6 @@ typedef enum{
  @param
  @result
  */
--(void)recordButtonDragOutside;
+- (void)recordButtonDragOutside;
 
 @end

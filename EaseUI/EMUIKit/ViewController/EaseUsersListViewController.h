@@ -12,9 +12,9 @@
 
 #import "EaseRefreshTableViewController.h"
 
-#import "EaseUserModel.h"
-#import "EaseUserCell.h"
 #import "EaseSDKHelper.h"
+#import "EaseUserCell.h"
+#import "EaseUserModel.h"
 
 @class EaseUsersListViewController;
 
@@ -28,7 +28,7 @@
  @param userModel               用户模型
  */
 - (void)userListViewController:(EaseUsersListViewController *)userListViewController
-            didSelectUserModel:(id<IUserModel>)userModel;
+            didSelectUserModel:(id <IUserModel>)userModel;
 
 @optional
 
@@ -40,7 +40,7 @@
  @param userModel                会话模型
  */
 - (void)userListViewController:(EaseUsersListViewController *)userListViewController
-            didDeleteUserModel:(id<IUserModel>)userModel;
+            didDeleteUserModel:(id <IUserModel>)userModel;
 
 @end
 
@@ -55,7 +55,8 @@
  @param userListViewController 当前会话列表视图
  @result 返回好友列表行数
  */
-- (NSInteger)numberOfRowInUserListViewController:(EaseUsersListViewController *)userListViewController;
+- (NSInteger)numberOfRowInUserListViewController:
+        (EaseUsersListViewController *)userListViewController;
 
 /*!
  @method
@@ -65,8 +66,8 @@
  @param buddy 好友环信id
  @result 返回用户最后一条消息显示的内容
  */
-- (id<IUserModel>)userListViewController:(EaseUsersListViewController *)userListViewController
-                           modelForBuddy:(NSString *)buddy;
+- (id <IUserModel>)userListViewController:(EaseUsersListViewController *)userListViewController
+                            modelForBuddy:(NSString *)buddy;
 
 /*!
  @method
@@ -76,19 +77,19 @@
  @param indexPath 消息cell所在的位置
  @result 返回用户最后一条消息显示的内容
  */
-- (id<IUserModel>)userListViewController:(EaseUsersListViewController *)userListViewController
-                   userModelForIndexPath:(NSIndexPath *)indexPath;
+- (id <IUserModel>)userListViewController:(EaseUsersListViewController *)userListViewController
+                    userModelForIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
 @interface EaseUsersListViewController : EaseRefreshTableViewController
 
-@property (weak, nonatomic) id<EMUserListViewControllerDelegate> delegate;
+@property(weak, nonatomic) id <EMUserListViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) id<EMUserListViewControllerDataSource> dataSource;
+@property(weak, nonatomic) id <EMUserListViewControllerDataSource> dataSource;
 
 /** @brief 是否显示搜索框 */
-@property (nonatomic) BOOL showSearchBar;
+@property(nonatomic) BOOL showSearchBar;
 
 /*!
  @method

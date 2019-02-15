@@ -25,9 +25,9 @@ extern "C" {
 
 #define _good_frame 0
 
-void* D_IF_init(void);
-void D_IF_decode(void* state, const unsigned char* bits, short* synth, int bfi);
-void D_IF_exit(void* state);
+void *D_IF_init(void);
+void D_IF_decode(void *state, const unsigned char *bits, short *synth, int bfi);
+void D_IF_exit(void *state);
 
 #ifdef __cplusplus
 }

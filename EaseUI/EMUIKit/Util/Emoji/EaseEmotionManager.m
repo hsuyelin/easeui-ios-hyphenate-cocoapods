@@ -17,8 +17,7 @@
 - (id)initWithType:(EMEmotionType)Type
         emotionRow:(NSInteger)emotionRow
         emotionCol:(NSInteger)emotionCol
-          emotions:(NSArray*)emotions
-{
+          emotions:(NSArray *)emotions {
     self = [super init];
     if (self) {
         _emotionType = Type;
@@ -27,7 +26,12 @@
         NSMutableArray *tempEmotions = [NSMutableArray array];
         for (id name in emotions) {
             if ([name isKindOfClass:[NSString class]]) {
-                EaseEmotion *emotion = [[EaseEmotion alloc] initWithName:@"" emotionId:name emotionThumbnail:name emotionOriginal:name emotionOriginalURL:@"" emotionType:EMEmotionDefault];
+                EaseEmotion *emotion = [[EaseEmotion alloc] initWithName:@""
+                                                               emotionId:name
+                                                        emotionThumbnail:name
+                                                         emotionOriginal:name
+                                                      emotionOriginalURL:@""
+                                                             emotionType:EMEmotionDefault];
                 [tempEmotions addObject:emotion];
             }
         }
@@ -40,10 +44,8 @@
 - (id)initWithType:(EMEmotionType)Type
         emotionRow:(NSInteger)emotionRow
         emotionCol:(NSInteger)emotionCol
-          emotions:(NSArray*)emotions
-          tagImage:(UIImage*)tagImage
-
-{
+          emotions:(NSArray *)emotions
+          tagImage:(UIImage *)tagImage {
     self = [super init];
     if (self) {
         _emotionType = Type;
@@ -59,13 +61,12 @@
 
 @implementation EaseEmotion
 
-- (id)initWithName:(NSString*)emotionTitle
-         emotionId:(NSString*)emotionId
-  emotionThumbnail:(NSString*)emotionThumbnail
-   emotionOriginal:(NSString*)emotionOriginal
-emotionOriginalURL:(NSString*)emotionOriginalURL
-       emotionType:(EMEmotionType)emotionType
-{
+- (id)initWithName:(NSString *)emotionTitle
+         emotionId:(NSString *)emotionId
+  emotionThumbnail:(NSString *)emotionThumbnail
+   emotionOriginal:(NSString *)emotionOriginal
+emotionOriginalURL:(NSString *)emotionOriginalURL
+       emotionType:(EMEmotionType)emotionType {
     self = [super init];
     if (self) {
         _emotionTitle = emotionTitle;
@@ -77,6 +78,5 @@ emotionOriginalURL:(NSString*)emotionOriginalURL
     }
     return self;
 }
-
 
 @end

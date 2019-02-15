@@ -11,14 +11,15 @@
  */
 
 #import "EMAudioPlayerUtil.h"
-#import <AVFoundation/AVFoundation.h>
-#import "NSBundle+EaseUI.h"
 #import "EaseLocalDefine.h"
+#import "NSBundle+EaseUI.h"
+#import <AVFoundation/AVFoundation.h>
 
 static EMAudioPlayerUtil *audioPlayerUtil = nil;
 
 @interface EMAudioPlayerUtil () <AVAudioPlayerDelegate> {
     AVAudioPlayer *_player;
+
     void (^playFinish)(NSError *error);
 }
 
@@ -27,99 +28,90 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
 @implementation EMAudioPlayerUtil
 
 #pragma mark - public
-+ (BOOL)isPlaying{
+
++ (BOOL)isPlaying {
     return [[EMAudioPlayerUtil sharedInstance] isPlaying];
 }
 
-+ (NSString *)playingFilePath{
++ (NSString *)playingFilePath {
     return [[EMAudioPlayerUtil sharedInstance] playingFilePath];
 }
 
-+ (void)asyncPlayingWithPath:(NSString *)aFilePath
-                  completion:(void(^)(NSError *error))completon{
-    [[EMAudioPlayerUtil sharedInstance] asyncPlayingWithPath:aFilePath
-                                                  completion:completon];
++ (void)asyncPlayingWithPath:(NSString *)aFilePath completion:(void (^)(NSError *error))completon {
+    [[EMAudioPlayerUtil sharedInstance] asyncPlayingWithPath:aFilePath completion:completon];
 }
 
-+ (void)stopCurrentPlaying{
++ (void)stopCurrentPlaying {
     [[EMAudioPlayerUtil sharedInstance] stopCurrentPlaying];
 }
 
-
 #pragma mark - private
-+ (EMAudioPlayerUtil *)sharedInstance{
+
++ (EMAudioPlayerUtil *)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         audioPlayerUtil = [[self alloc] init];
     });
-    
+
     return audioPlayerUtil;
 }
 
-- (BOOL)isPlaying
-{
+- (BOOL)isPlaying {
     return !!_player;
 }
 
 // Get the path of what is currently being played
-- (NSString *)playingFilePath
-{
+- (NSString *)playingFilePath {
     NSString *path = nil;
-    if (_player && _player.isPlaying) {
-        path = _player.url.path;
-    }
-    
+    if (_player && _player.isPlaying) {path = _player.url.path;}
+
     return path;
 }
 
-- (void)asyncPlayingWithPath:(NSString *)aFilePath
-                  completion:(void(^)(NSError *error))completon{
+- (void)asyncPlayingWithPath:(NSString *)aFilePath completion:(void (^)(NSError *error))completon {
     playFinish = completon;
     NSError *error = nil;
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:aFilePath]) {
-        error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.notFound", @"File path not exist")
-                                    code:-1
-                                userInfo:nil];
-        if (playFinish) {
-            playFinish(error);
-        }
+        error = [NSError
+                errorWithDomain:NSEaseLocalizedString(@"error.notFound", @"File path not exist")
+                           code:-1
+                       userInfo:nil];
+        if (playFinish) {playFinish(error);}
         playFinish = nil;
-        
+
         return;
     }
-    
+
     NSURL *wavUrl = [[NSURL alloc] initFileURLWithPath:aFilePath];
     _player = [[AVAudioPlayer alloc] initWithContentsOfURL:wavUrl error:&error];
     if (error || !_player) {
         _player = nil;
-        error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.initPlayerFail", @"Failed to initialize AVAudioPlayer")
+        error =
+                [NSError errorWithDomain:NSEaseLocalizedString(@"error.initPlayerFail",
+                                @"Failed to initialize AVAudioPlayer")
                                     code:-1
                                 userInfo:nil];
-        if (playFinish) {
-            playFinish(error);
-        }
+        if (playFinish) {playFinish(error);}
         playFinish = nil;
         return;
     }
-    
+
     _player.delegate = self;
     [_player prepareToPlay];
     [_player play];
 }
 
-- (void)stopCurrentPlaying{
-    if(_player){
+- (void)stopCurrentPlaying {
+    if (_player) {
         _player.delegate = nil;
         [_player stop];
         _player = nil;
     }
-    if (playFinish) {
-        playFinish = nil;
-    }
+    if (playFinish) {playFinish = nil;}
 }
 
-- (void)dealloc{
+- (void)dealloc {
     if (_player) {
         _player.delegate = nil;
         [_player stop];
@@ -129,11 +121,9 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
 }
 
 #pragma mark - AVAudioPlayerDelegate
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player
-                       successfully:(BOOL)flag{
-    if (playFinish) {
-        playFinish(nil);
-    }
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    if (playFinish) {playFinish(nil);}
     if (_player) {
         _player.delegate = nil;
         _player = nil;
@@ -141,12 +131,12 @@ static EMAudioPlayerUtil *audioPlayerUtil = nil;
     playFinish = nil;
 }
 
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player
-                                 error:(NSError *)error{
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
     if (playFinish) {
-        NSError *error = [NSError errorWithDomain:NSEaseLocalizedString(@"error.palyFail", @"Play failure")
-                                             code:-1
-                                         userInfo:nil];
+        NSError *error =
+                [NSError errorWithDomain:NSEaseLocalizedString(@"error.palyFail", @"Play failure")
+                                    code:-1
+                                userInfo:nil];
         playFinish(error);
     }
     if (_player) {

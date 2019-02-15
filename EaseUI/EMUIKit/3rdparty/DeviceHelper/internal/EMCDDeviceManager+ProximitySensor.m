@@ -10,19 +10,19 @@
  * from Hyphenate Inc.
  */
 
-#import <UIKit/UIKit.h>
 #import "EMCDDeviceManager+ProximitySensor.h"
+#import <UIKit/UIKit.h>
 
 @implementation EMCDDeviceManager (ProximitySensor)
 @dynamic isSupportProximitySensor;
 @dynamic isCloseToUser;
 
-
 #pragma mark - proximity sensor
+
 - (BOOL)isProximitySensorEnabled {
     BOOL ret = NO;
     ret = self.isSupportProximitySensor && [UIDevice currentDevice].proximityMonitoringEnabled;
-    
+
     return ret;
 }
 
@@ -32,7 +32,7 @@
         [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
         ret = YES;
     }
-    
+
     return ret;
 }
 
@@ -43,22 +43,21 @@
         _isCloseToUser = NO;
         ret = YES;
     }
-    
+
     return ret;
 }
 
 - (void)sensorStateChanged:(NSNotification *)notification {
     BOOL ret = NO;
-    if ([[UIDevice currentDevice] proximityState] == YES) {
-        ret = YES;
-    } 
+    if ([[UIDevice currentDevice] proximityState] == YES) {ret = YES;}
     _isCloseToUser = ret;
-    if([self.delegate respondsToSelector:@selector(proximitySensorChanged:)]){
+    if ([self.delegate respondsToSelector:@selector(proximitySensorChanged:)]) {
         [self.delegate proximitySensorChanged:_isCloseToUser];
     }
 }
 
 #pragma mark - getter
+
 - (BOOL)isCloseToUser {
     return _isCloseToUser;
 }

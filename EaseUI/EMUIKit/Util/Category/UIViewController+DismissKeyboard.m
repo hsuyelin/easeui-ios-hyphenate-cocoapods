@@ -14,26 +14,25 @@
 
 @implementation UIViewController (DismissKeyboard)
 
-- (void)setupForDismissKeyboard
-{
+- (void)setupForDismissKeyboard {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     UITapGestureRecognizer *singleTapGR =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(tapAnywhereToDismissKeyboard:)];
-    
+            [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(tapAnywhereToDismissKeyboard:)];
+
     __weak UIViewController *weakSelf = self;
-    
-    NSOperationQueue *mainQuene =[NSOperationQueue mainQueue];
+
+    NSOperationQueue *mainQuene = [NSOperationQueue mainQueue];
     [nc addObserverForName:UIKeyboardWillShowNotification
                     object:nil
                      queue:mainQuene
-                usingBlock:^(NSNotification *note){
+                usingBlock:^(NSNotification *note) {
                     [weakSelf.view addGestureRecognizer:singleTapGR];
                 }];
     [nc addObserverForName:UIKeyboardWillHideNotification
                     object:nil
                      queue:mainQuene
-                usingBlock:^(NSNotification *note){
+                usingBlock:^(NSNotification *note) {
                     [weakSelf.view removeGestureRecognizer:singleTapGR];
                 }];
 }

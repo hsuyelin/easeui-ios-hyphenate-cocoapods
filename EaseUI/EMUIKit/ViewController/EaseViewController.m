@@ -14,7 +14,7 @@
 
 @interface EaseViewController ()
 
-@property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
+@property(strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 @end
 
@@ -23,11 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]){
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
-    
-    _tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapViewAction:)];
+
+    _tapRecognizer =
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapViewAction:)];
     [self.view addGestureRecognizer:_tapRecognizer];
     _endEditingWhenTap = YES;
 }
@@ -39,15 +40,13 @@
 
 #pragma mark - setter
 
-- (void)setEndEditingWhenTap:(BOOL)endEditingWhenTap
-{
+- (void)setEndEditingWhenTap:(BOOL)endEditingWhenTap {
     if (_endEditingWhenTap != endEditingWhenTap) {
         _endEditingWhenTap = endEditingWhenTap;
-        
+
         if (_endEditingWhenTap) {
             [self.view addGestureRecognizer:self.tapRecognizer];
-        }
-        else{
+        } else {
             [self.view removeGestureRecognizer:self.tapRecognizer];
         }
     }
@@ -55,11 +54,8 @@
 
 #pragma mark - action
 
-- (void)tapViewAction:(UITapGestureRecognizer *)tapRecognizer
-{
-    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self.view endEditing:YES];
-    }
+- (void)tapViewAction:(UITapGestureRecognizer *)tapRecognizer {
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {[self.view endEditing:YES];}
 }
 
 @end

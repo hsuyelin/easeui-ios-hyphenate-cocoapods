@@ -10,10 +10,10 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 
 @class EaseEmotion;
+
 @protocol EaseFacialViewDelegate
 
 @optional
@@ -25,7 +25,7 @@
  @param str 选中的默认表情
  @result
  */
--(void)selectedFacialView:(NSString*)str;
+- (void)selectedFacialView:(NSString *)str;
 
 /*!
  @method
@@ -33,7 +33,7 @@
  @discussion
  @result
  */
--(void)deleteSelected:(NSString *)str;
+- (void)deleteSelected:(NSString *)str;
 
 /*!
  @method
@@ -41,7 +41,7 @@
  @discussion
  @result
  */
--(void)sendFace;
+- (void)sendFace;
 
 /*!
  @method
@@ -50,23 +50,23 @@
  @param emotion    被选中的自定义表情
  @result
  */
--(void)sendFace:(EaseEmotion *)emotion;
+- (void)sendFace:(EaseEmotion *)emotion;
 
 @end
 
 @class EaseEmotionManager;
-@interface EaseFacialView : UIView
-{
-	NSMutableArray *_faces;
+
+@interface EaseFacialView : UIView {
+    NSMutableArray *_faces;
 }
 
-@property(nonatomic, weak) id<EaseFacialViewDelegate> delegate;
+@property(nonatomic, weak) id <EaseFacialViewDelegate> delegate;
 
 @property(strong, nonatomic, readonly) NSArray *faces;
 
--(void)loadFacialView:(NSArray*)emotionManagers size:(CGSize)size;
+- (void)loadFacialView:(NSArray *)emotionManagers size:(CGSize)size;
 
--(void)loadFacialViewWithPage:(NSInteger)page;
+- (void)loadFacialViewWithPage:(NSInteger)page;
 
 //-(void)loadFacialView:(int)page size:(CGSize)size;
 

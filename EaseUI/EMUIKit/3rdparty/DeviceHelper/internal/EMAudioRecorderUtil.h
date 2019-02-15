@@ -10,21 +10,23 @@
  * from Hyphenate Inc.
  */
 
-#import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <Foundation/Foundation.h>
+
 @interface EMAudioRecorderUtil : NSObject
 
-+(BOOL)isRecording;
++ (BOOL)isRecording;
 
 // Start recording
 + (void)asyncStartRecordingWithPreparePath:(NSString *)aFilePath
-                                completion:(void(^)(NSError *error))completion;
+                                completion:(void (^)(NSError *error))completion;
+
 // Stop recording
-+(void)asyncStopRecordingWithCompletion:(void(^)(NSString *recordPath))completion;
++ (void)asyncStopRecordingWithCompletion:(void (^)(NSString *recordPath))completion;
 
 // Cancel recording
-+(void)cancelCurrentRecording;
++ (void)cancelCurrentRecording;
 
 // Current recorder
-+(AVAudioRecorder *)recorder;
++ (AVAudioRecorder *)recorder;
 @end

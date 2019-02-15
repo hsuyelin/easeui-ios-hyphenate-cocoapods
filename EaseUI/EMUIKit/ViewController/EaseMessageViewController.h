@@ -10,30 +10,30 @@
  * from Hyphenate Inc.
  */
 
-#import <MobileCoreServices/MobileCoreServices.h>
+#import "EaseRefreshTableViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import "EaseRefreshTableViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
-#import "IMessageModel.h"
-#import "EaseMessageModel.h"
-#import "EaseBaseMessageCell.h"
-#import "EaseMessageTimeCell.h"
-#import "EaseChatToolbar.h"
-#import "EaseLocationViewController.h"
 #import "EMCDDeviceManager+Media.h"
 #import "EMCDDeviceManager+ProximitySensor.h"
-#import "UIViewController+HUD.h"
+#import "EaseBaseMessageCell.h"
+#import "EaseChatToolbar.h"
+#import "EaseLocationViewController.h"
+#import "EaseMessageModel.h"
+#import "EaseMessageTimeCell.h"
 #import "EaseSDKHelper.h"
+#import "IMessageModel.h"
+#import "UIViewController+HUD.h"
 
 @interface EaseAtTarget : NSObject
-@property (nonatomic, copy) NSString    *userId;
-@property (nonatomic, copy) NSString    *nickname;
+@property (nonatomic, copy) NSString *userId;
+@property (nonatomic, copy) NSString *nickname;
 
-- (instancetype)initWithUserId:(NSString*)userId andNickname:(NSString*)nickname;
+- (instancetype)initWithUserId:(NSString *)userId andNickname:(NSString *)nickname;
 @end
 
-typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
+typedef void (^EaseSelectAtTargetCallback)(EaseAtTarget *);
 
 @class EaseMessageViewController;
 
@@ -66,15 +66,15 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
                    withCellWidth:(CGFloat)cellWidth;
 
 /*!
-  @method
-  @brief 接收到消息的已读回执
-  @discussion 接收到消息的已读回执的回调,用户可以自定义处理
-  @param viewController 当前消息视图
-  @param messageModel 消息模型
-  @result
-  */
+ @method
+ @brief 接收到消息的已读回执
+ @discussion 接收到消息的已读回执的回调,用户可以自定义处理
+ @param viewController 当前消息视图
+ @param messageModel 消息模型
+ @result
+ */
 - (void)messageViewController:(EaseMessageViewController *)viewController
- didReceiveHasReadAckForModel:(id<IMessageModel>)messageModel;
+    didReceiveHasReadAckForModel:(id<IMessageModel>)messageModel;
 
 /*!
  @method
@@ -147,7 +147,6 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 
 @end
 
-
 @protocol EaseMessageViewControllerDataSource <NSObject>
 
 @optional
@@ -161,7 +160,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
  @result
  */
 - (id)messageViewController:(EaseMessageViewController *)viewController
-                  progressDelegateForMessageBodyType:(EMMessageBodyType)messageBodyType;
+    progressDelegateForMessageBodyType:(EMMessageBodyType)messageBodyType;
 
 /*!
  @method
@@ -176,7 +175,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
 - (void)messageViewController:(EaseMessageViewController *)viewController
                updateProgress:(float)progress
                  messageModel:(id<IMessageModel>)messageModel
-                  messageBody:(EMMessageBody*)messageBody;
+                  messageBody:(EMMessageBody *)messageBody;
 
 /*!
  @method
@@ -209,7 +208,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
  @result
  */
 - (BOOL)messageViewController:(EaseMessageViewController *)viewController
-   canLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
+    canLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
 
 /*!
  @method
@@ -220,7 +219,7 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
  @result
  */
 - (BOOL)messageViewController:(EaseMessageViewController *)viewController
-   didLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
+    didLongPressRowAtIndexPath:(NSIndexPath *)indexPath;
 
 /*!
  @method
@@ -241,8 +240,8 @@ typedef void(^EaseSelectAtTargetCallback)(EaseAtTarget*);
  @result
  */
 - (BOOL)messageViewController:(EaseMessageViewController *)viewController
-shouldSendHasReadAckForMessage:(EMMessage *)message
-                         read:(BOOL)read;
+    shouldSendHasReadAckForMessage:(EMMessage *)message
+                              read:(BOOL)read;
 
 /*!
  @method
@@ -265,8 +264,8 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param messageModel 消息模型
  @result
  */
-- (EaseEmotion*)emotionURLFormessageViewController:(EaseMessageViewController *)viewController
-                                      messageModel:(id<IMessageModel>)messageModel;
+- (EaseEmotion *)emotionURLFormessageViewController:(EaseMessageViewController *)viewController
+                                       messageModel:(id<IMessageModel>)messageModel;
 
 /*!
  @method
@@ -275,7 +274,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param viewController 当前消息视图
  @result
  */
-- (NSArray*)emotionFormessageViewController:(EaseMessageViewController *)viewController;
+- (NSArray *)emotionFormessageViewController:(EaseMessageViewController *)viewController;
 
 /*!
  @method
@@ -285,8 +284,8 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param easeEmotion
  @result
  */
-- (NSDictionary*)emotionExtFormessageViewController:(EaseMessageViewController *)viewController
-                                        easeEmotion:(EaseEmotion*)easeEmotion;
+- (NSDictionary *)emotionExtFormessageViewController:(EaseMessageViewController *)viewController
+                                         easeEmotion:(EaseEmotion *)easeEmotion;
 
 /*!
  @method
@@ -299,16 +298,21 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 
 @end
 
-@interface EaseMessageViewController : EaseRefreshTableViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, EMChatManagerDelegate, EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate, EMLocationViewDelegate,EMChatroomManagerDelegate, EaseMessageCellDelegate>
-
+@interface EaseMessageViewController
+    : EaseRefreshTableViewController <
+          UINavigationControllerDelegate, UIImagePickerControllerDelegate, EMChatManagerDelegate,
+          EMCDDeviceManagerDelegate, EMChatToolbarDelegate, EaseChatBarMoreViewDelegate,
+          EMLocationViewDelegate, EMChatroomManagerDelegate, EaseMessageCellDelegate>
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) id<EaseMessageViewControllerDataSource> dataSource;
 
-
 @property (copy, nonatomic) NSMutableDictionary *easeExt;
 @property (assign, nonatomic) BOOL easeHasReadFlag;
+@property (assign, nonatomic) BOOL isCustomDownload;
+@property (copy, nonatomic) void (^ease_refresh)(NSArray *messages);
+@property (copy, nonatomic) void (^ease_pullHistoryMessageFromDBCompleted)(void);
 
 /*!
  @property
@@ -326,13 +330,13 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @property
  @brief 如果conversation中没有任何消息，退出该页面时是否删除该conversation
  */
-@property (nonatomic) BOOL deleteConversationIfNull; //default YES;
+@property (nonatomic) BOOL deleteConversationIfNull; // default YES;
 
 /*!
  @property
  @brief 当前页面显示时，是否滚动到最后一条
  */
-@property (nonatomic) BOOL scrollToBottomWhenAppear; //default YES;
+@property (nonatomic) BOOL scrollToBottomWhenAppear; // default YES;
 
 /*!
  @property
@@ -344,7 +348,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @property
  @brief 加载的每页message的条数
  */
-@property (nonatomic) NSInteger messageCountOfPage; //default 50
+@property (nonatomic) NSInteger messageCountOfPage; // default 50
 
 /*!
  @property
@@ -368,23 +372,23 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @property
  @brief 底部功能控件
  */
-@property(strong, nonatomic) EaseChatBarMoreView *chatBarMoreView;
+@property (strong, nonatomic) EaseChatBarMoreView *chatBarMoreView;
 
 /*!
  @property
  @brief 底部表情控件
  */
-@property(strong, nonatomic) EaseFaceView *faceView;
+@property (strong, nonatomic) EaseFaceView *faceView;
 
 /*!
  @property
  @brief 底部录音控件
  */
-@property(strong, nonatomic) EaseRecordView *recordView;
+@property (strong, nonatomic) EaseRecordView *recordView;
 
 /*!
-  @property
-  @brief 菜单(消息复制,删除)
+ @property
+ @brief 菜单(消息复制,删除)
  */
 @property (strong, nonatomic) UIMenuController *menuController;
 
@@ -407,17 +411,27 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
 @property (nonatomic) BOOL isJoinedChatroom;
 
 - (void)ease_imageMessageSelected:(id<IMessageModel>)model;
+
 - (void)ease_audioMessageSelected:(id<IMessageModel>)model;
+
 - (void)ease_videoMessageSelected:(id<IMessageModel>)model;
 
+- (void)ease_loadMessagesBefore:(NSArray *)messages append:(BOOL)isAppend;
+
+- (void)ease_downloadMessageThumbnailByCustom:(EMMessage *)message completion:(void (^)(EMMessage *message, EMError *error))completion;
+
+- (void)ease_downloadMessageAttachmentsByCustom:(EMMessage *)message completion:(void (^)(EMMessage *message, EMError *error))completion;
+
+- (void)ease_reloadTableViewDataWithMessage:(EMMessage *)message;
+
 /*!
-  @method
-  @brief 初始化聊天页面
-  @discussion
-  @param conversationChatter 会话对方的用户名. 如果是群聊, 则是群组的id
-  @param conversationType 会话类型
-  @result
-  */
+ @method
+ @brief 初始化聊天页面
+ @discussion
+ @param conversationChatter 会话对方的用户名. 如果是群聊, 则是群组的id
+ @param conversationType 会话类型
+ @result
+ */
 - (instancetype)initWithConversationChatter:(NSString *)conversationChatter
                            conversationType:(EMConversationType)conversationType;
 
@@ -446,7 +460,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param ext  扩展信息
  @result
  */
-- (void)sendTextMessage:(NSString *)text withExt:(NSDictionary*)ext;
+- (void)sendTextMessage:(NSString *)text withExt:(NSDictionary *)ext;
 
 /*!
  @method
@@ -478,8 +492,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param duration 时长
  @result
  */
-- (void)sendVoiceMessageWithLocalPath:(NSString *)localPath
-                             duration:(NSInteger)duration;
+- (void)sendVoiceMessageWithLocalPath:(NSString *)localPath duration:(NSInteger)duration;
 
 /*!
  @method
@@ -499,7 +512,6 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  */
 - (void)sendFileMessageWith:(EMMessage *)message;
 
-
 /*!
  @method
  @brief 添加消息
@@ -508,8 +520,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param progress 聊天消息发送接收进度条
  @result
  */
-- (void)addMessageToDataSource:(EMMessage *)message
-                     progress:(id)progress;
+- (void)addMessageToDataSource:(EMMessage *)message progress:(id)progress;
 
 /*!
  @method
@@ -521,8 +532,8 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @result
  */
 - (void)showMenuViewController:(UIView *)showInView
-                 andIndexPath:(NSIndexPath *)indexPath
-                  messageType:(EMMessageBodyType)messageType;
+                  andIndexPath:(NSIndexPath *)indexPath
+                   messageType:(EMMessageBodyType)messageType;
 
 /*!
  @method
@@ -532,8 +543,7 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param read    是否附件消息已读
  @result
  */
-- (BOOL)shouldSendHasReadAckForMessage:(EMMessage *)message
-                                 read:(BOOL)read;
+- (BOOL)shouldSendHasReadAckForMessage:(EMMessage *)message read:(BOOL)read;
 
 /*!
  @method
@@ -543,7 +553,6 @@ shouldSendHasReadAckForMessage:(EMMessage *)message
  @param isUploadFile    是否上传附件
  @result
  */
-- (void)sendMessage:(EMMessage *)message
-   isNeedUploadFile:(BOOL)isUploadFile;
+- (void)sendMessage:(EMMessage *)message isNeedUploadFile:(BOOL)isUploadFile;
 
 @end

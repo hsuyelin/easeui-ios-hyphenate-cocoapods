@@ -10,51 +10,50 @@
  * from Hyphenate Inc.
  */
 
-
 #import <UIKit/UIKit.h>
 
-#import "EaseFaceView.h"
-#import "EaseTextView.h"
-#import "EaseRecordView.h"
 #import "EaseChatBarMoreView.h"
 #import "EaseChatToolbarItem.h"
+#import "EaseFaceView.h"
+#import "EaseRecordView.h"
+#import "EaseTextView.h"
 
 #define kTouchToRecord NSEaseLocalizedString(@"message.toolBar.record.touch", @"hold down to talk")
 #define kTouchToFinish NSEaseLocalizedString(@"message.toolBar.record.send", @"loosen to send")
 
-
-
 @protocol EMChatToolbarDelegate;
+
 @interface EaseChatToolbar : UIView
 
-@property (weak, nonatomic) id<EMChatToolbarDelegate> delegate;
+@property(weak, nonatomic) id <EMChatToolbarDelegate> delegate;
 
-@property (nonatomic) UIImage *backgroundImage;
+@property(nonatomic) UIImage *backgroundImage;
 
-@property (nonatomic, readonly) EMChatToolbarType chatBarType;
+@property(nonatomic, readonly) EMChatToolbarType chatBarType;
 
-@property (nonatomic, readonly) CGFloat inputViewMaxHeight;
+@property(nonatomic, readonly) CGFloat inputViewMaxHeight;
 
-@property (nonatomic, readonly) CGFloat inputViewMinHeight;
+@property(nonatomic, readonly) CGFloat inputViewMinHeight;
 
-@property (nonatomic, readonly) CGFloat horizontalPadding;
+@property(nonatomic, readonly) CGFloat horizontalPadding;
 
-@property (nonatomic, readonly) CGFloat verticalPadding;
+@property(nonatomic, readonly) CGFloat verticalPadding;
 
-@property (strong, nonatomic) NSArray *inputViewLeftItems;
+@property(strong, nonatomic) NSArray *inputViewLeftItems;
 
-@property (strong, nonatomic) NSArray *inputViewRightItems;
+@property(strong, nonatomic) NSArray *inputViewRightItems;
 
-@property (strong, nonatomic) EaseTextView *inputTextView;
+@property(strong, nonatomic) EaseTextView *inputTextView;
 
-@property (strong, nonatomic) UIView *moreView;
+@property(strong, nonatomic) UIView *moreView;
 
-@property (strong, nonatomic) UIView *faceView;
+@property(strong, nonatomic) UIView *faceView;
 
-@property (strong, nonatomic) UIView *recordView;
+@property(strong, nonatomic) UIView *recordView;
 
-- (instancetype)initWithFrame:(CGRect)frame
-                         type:(EMChatToolbarType)type;
+@property(assign, nonatomic) BOOL allowInputEmoji;
+
+- (instancetype)initWithFrame:(CGRect)frame type:(EMChatToolbarType)type;
 
 /**
  *  Initializa chat bar
@@ -78,7 +77,6 @@
  @result  返回chatToolBar默认的高度
  */
 + (CGFloat)defaultHeight;
-
 
 - (void)cancelTouchRecord;
 
@@ -124,7 +122,7 @@
  *  @param text 文字消息
  *  @param ext 扩展消息
  */
-- (void)didSendText:(NSString *)text withExt:(NSDictionary*)ext;
+- (void)didSendText:(NSString *)text withExt:(NSDictionary *)ext;
 
 /*
  *  在光标location位置处是否插入字符@
